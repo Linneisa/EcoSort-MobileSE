@@ -1,3 +1,29 @@
 <resources>
     <string name="app_name">EcoSort</string>
+    <string name="welcome_user">Halo, Bintang! 👋</string>
+    <string name="ready_to_sort">Siap memilah sampah hari ini?</string>
+    <string name="user_icon">👤</string>
+    <string name="total_balance_label">Total Saldo Kamu</string>
+    <string name="eco_points_value">1.500 EcoPoints</string>
+    <string name="history">🔄 Riwayat</string>
+    <string name="redeem_points">🎁 Tukar Poin</string>
+    <string name="today_schedule">Jadwal Hari Ini</string>
+    <string name="truck_icon">🚛</string>
+    <string name="truck_arrival_label">Truk Sampah Tiba</string>
+    <string name="truck_arrival_time">16:00 WIB (Sore ini)</string>
+    <string name="environmental_impact">Dampak Lingkunganmu</string>
+    <string name="waste_processed_value">12.5 Kg</string>
+    <string name="waste_processed_label">Sampah Terolah</string>
+    <string name="co2_reduction_value">4.2 Kg</string>
+    <string name="co2_reduction_label">Emisi CO2 Turun</string>
+
+    <string name="our_services">Layanan Kami</string>
+    <string name="menu_peta">Peta TPS</string>
+    <string name="menu_marketplace">Marketplace</string>
+    <string name="menu_jadwal">Jadwal</string>
+    <string name="menu_reward">Reward</string>
+    <string name="peta_icon">📍</string>
+    <string name="market_icon">🛒</string>
+    <string name="calendar_icon">📅</string>
+    <string name="gift_icon">🎁</string>
 </resources>

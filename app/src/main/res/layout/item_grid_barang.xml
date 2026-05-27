@@ -3,104 +3,84 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="8dp"
-    app:cardBackgroundColor="#222E24"
-    app:cardCornerRadius="16dp"
-    app:cardElevation="6dp">
+    android:layout_margin="6dp"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    app:cardBackgroundColor="#0D1F16" app:cardCornerRadius="18dp" app:cardElevation="0dp"> <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:background="#132A1E"
+        android:padding="24dp">
+
+        <ImageView
+            android:id="@+id/imgBarang"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:scaleType="fitCenter"
+            android:src="@android:drawable/ic_menu_gallery" />
+    </FrameLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingBottom="8dp">
-
-        <ImageView
-            android:id="@+id/imgBarang"
-            android:layout_width="match_parent"
-            android:layout_height="130dp"
-            android:scaleType="centerCrop"
-            android:src="@android:drawable/ic_menu_gallery" />
+        android:paddingHorizontal="14dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="16dp">
 
         <TextView
             android:id="@+id/txtNamaBarang"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="12dp"
+            android:ellipsize="end"
             android:maxLines="1"
-            android:text="Nama Barang"
-            android:textColor="#FFFFFF"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/txtHargaBarang"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="2dp"
-            android:text="Rp 0"
-            android:textColor="#66BB6A"
+            android:text="Sampah Organik"
+            android:textColor="#E2E8F0"
             android:textSize="14sp"
             android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="12dp"
-            android:orientation="horizontal"
-            android:weightSum="2">
+            android:layout_marginTop="4dp"
+            android:gravity="bottom"
+            android:orientation="horizontal">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_marginEnd="4dp"
-                android:layout_weight="1"
-                app:cardBackgroundColor="#151E18"
-                app:cardCornerRadius="6dp"
-                app:cardElevation="0dp">
+            <TextView
+                android:id="@+id/txtHargaBarang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Rp 500"
+                android:textColor="#34D399" android:textSize="15sp"
+                android:textStyle="bold" />
 
-                <TextView
-                    android:id="@+id/btnBeliLangsung"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center"
-                    android:padding="6dp"
-                    android:text="Beli Sekarang"
-                    android:textColor="#66BB6A"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
-            </androidx.cardview.widget.CardView>
-
-            <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
+            <TextView
+                android:id="@+id/txtSatuanBarang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
-                android:layout_weight="1"
-                app:cardBackgroundColor="#2E7D32"
-                app:cardCornerRadius="6dp"
-                app:cardElevation="0dp">
-
-                <TextView
-                    android:id="@+id/btnKeranjang"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="?attr/selectableItemBackground"
-                    android:clickable="true"
-                    android:focusable="true"
-                    android:gravity="center"
-                    android:padding="6dp"
-                    android:text="+ Keranjang"
-                    android:textColor="#FFFFFF"
-                    android:textSize="10sp"
-                    android:textStyle="bold" />
-            </androidx.cardview.widget.CardView>
+                android:text="/kg"
+                android:textColor="#475569"
+                android:textSize="11sp" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/txtLokasiBarang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="Pak Hendra · Bandung"
+            android:textColor="#475569" android:textSize="12sp" />
+
     </LinearLayout>
+</LinearLayout>
 </androidx.cardview.widget.CardView>

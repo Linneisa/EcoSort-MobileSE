@@ -1,16 +1,9 @@
 package com.example.ecosort;
 
-import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.Toast;
-import androidx.activity.EdgeToEdge;
+import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
@@ -18,83 +11,80 @@ import java.util.List;
 
 public class MarketplaceActivity extends AppCompatActivity {
 
+    private TextView btnSemua, btnOrganik, btnPlastik, btnLogam;
+    private RecyclerView rvMarketplace;
+    private List<Produk> semuaProdukList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_marketplace);
 
-        // Mengatur jarak layar (Bawaan Android)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        // Inisialisasi Filter (Komponen Navigasi Sudah Dihapus)
+        btnSemua = findViewById(R.id.btnFilterSemua);
+        btnOrganik = findViewById(R.id.btnFilterOrganik);
+        btnPlastik = findViewById(R.id.btnFilterPlastik);
+        btnLogam = findViewById(R.id.btnFilterLogam);
 
-        // ================= 1. KODE GRID MARKETPLACE (KOTAK-KOTAK) =================
-        RecyclerView rvMarketplace = findViewById(R.id.rvMarketplace);
+        // Setup RecyclerView Grid 2 Kolom
+        rvMarketplace = findViewById(R.id.rvMarketplace);
         rvMarketplace.setLayoutManager(new GridLayoutManager(this, 2));
 
-        List<Barang> daftarBarang = new ArrayList<>();
+        // Isi Data Barang Tiruan
+        semuaProdukList = new ArrayList<>();
+        semuaProdukList.add(new Produk("Botol Plastik PET", "500 pts", "/1 kg", "Plastik"));
+        semuaProdukList.add(new Produk("Kardus Bekas Tebal", "350 pts", "/1 kg", "Organik"));
+        semuaProdukList.add(new Produk("Kaleng Soda Aluminium", "800 pts", "/1 kg", "Logam"));
+        semuaProdukList.add(new Produk("Minyak Jelantah Jernih", "1.200 pts", "/1 ltr", "Organik"));
+        semuaProdukList.add(new Produk("Gelas Plastik Air Mineral", "400 pts", "/1 kg", "Plastik"));
+        semuaProdukList.add(new Produk("Besi Siku Bekas", "1.500 pts", "/1 kg", "Logam"));
 
-        // Memasukkan data barang (Nanti ganti tulisan ic_launcher_background dengan foto aslimu)
-        daftarBarang.add(new Barang(R.drawable.ic_launcher_background, "Botol Plastik (PET)", "Rp 3.000 / Kg"));
-        daftarBarang.add(new Barang(R.drawable.ic_launcher_background, "Kardus Bekas", "Rp 1.500 / Kg"));
-        daftarBarang.add(new Barang(R.drawable.ic_launcher_background, "Kertas HVS & Buku", "Rp 2.000 / Kg"));
-        daftarBarang.add(new Barang(R.drawable.ic_launcher_background, "Minyak Jelantah", "Rp 5.000 / Liter"));
-        daftarBarang.add(new Barang(R.drawable.ic_launcher_background, "Kaleng Alumunium", "Rp 9.000 / Kg"));
-        daftarBarang.add(new Barang(R.drawable.ic_launcher_background, "Botol Kaca", "Rp 1.000 / Kg"));
+        // Tampilkan barang awal
+        tampilkanDataKeGrid(semuaProdukList);
 
-        BarangAdapter adapterMarket = new BarangAdapter(this, daftarBarang);
-        rvMarketplace.setAdapter(adapterMarket);
-
-
-        // ================= 2. KODE FUNGSI TOMBOL & NAVIGASI BAWAH =================
-        ImageView navHome = findViewById(R.id.navHome);
-        ImageView navMap = findViewById(R.id.navMap);
-        ImageView navMarket = findViewById(R.id.navMarket);
-        ImageView navProfile = findViewById(R.id.navProfile);
-        CardView cardSearch = findViewById(R.id.cardSearch);
-
-        // Fungsi Tombol Pencarian
-        cardSearch.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MarketplaceActivity.this, "Fitur pencarian sedang dikembangkan...", Toast.LENGTH_SHORT).show();
-            }
+        // Filter klik
+        btnSemua.setOnClickListener(v -> {
+            setKategoriAktif(btnSemua);
+            tampilkanDataKeGrid(semuaProdukList);
         });
-
-        // Fungsi Tombol Home (Kembali)
-        navHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish(); // Menutup halaman dan kembali ke Dashboard
-            }
+        btnOrganik.setOnClickListener(v -> {
+            setKategoriAktif(btnOrganik);
+            filterData("Organik");
         });
-
-        // Fungsi Tombol Map (Pindah ke TpsActivity)
-        navMap.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MarketplaceActivity.this, TpsActivity.class);
-                startActivity(intent);
-            }
+        btnPlastik.setOnClickListener(v -> {
+            setKategoriAktif(btnPlastik);
+            filterData("Plastik");
         });
-
-        // Fungsi Tombol Profile
-        navProfile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MarketplaceActivity.this, "Membuka halaman profil...", Toast.LENGTH_SHORT).show();
-            }
+        btnLogam.setOnClickListener(v -> {
+            setKategoriAktif(btnLogam);
+            filterData("Logam");
         });
+    }
 
-        // Fungsi Tombol Market (Memberitahu posisi saat ini)
-        navMarket.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(MarketplaceActivity.this, "Kamu sudah berada di Marketplace", Toast.LENGTH_SHORT).show();
+    private void filterData(String kategori) {
+        List<Produk> filteredList = new ArrayList<>();
+        for (Produk p : semuaProdukList) {
+            if (p.getKategori().equalsIgnoreCase(kategori)) {
+                filteredList.add(p);
             }
-        });
+        }
+        tampilkanDataKeGrid(filteredList);
+    }
+
+    private void tampilkanDataKeGrid(List<Produk> list) {
+        ProdukAdapter adapter = new ProdukAdapter(list);
+        rvMarketplace.setAdapter(adapter);
+    }
+
+    private void setKategoriAktif(TextView tombolTerpilih) {
+        TextView[] daftarTombol = {btnSemua, btnOrganik, btnPlastik, btnLogam};
+        for (TextView btn : daftarTombol) {
+            btn.setBackgroundResource(R.drawable.bg_tab_inactive);
+            btn.setTextColor(Color.parseColor("#475569"));
+            btn.setTypeface(null, android.graphics.Typeface.NORMAL);
+        }
+        tombolTerpilih.setBackgroundResource(R.drawable.bg_tab_active);
+        tombolTerpilih.setTextColor(Color.parseColor("#050F0B"));
+        tombolTerpilih.setTypeface(null, android.graphics.Typeface.BOLD);
     }
 }
