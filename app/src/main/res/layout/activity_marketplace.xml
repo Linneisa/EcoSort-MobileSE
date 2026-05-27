@@ -5,7 +5,7 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2E7D32"
+    android:background="#101813"
     android:orientation="vertical">
 
     <LinearLayout
@@ -46,15 +46,15 @@
                     android:layout_height="wrap_content"
                     android:text="Hasil "
                     android:textColor="#FFFFFF"
-                    android:textSize="22sp"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Daur Ulang"
-                    android:textColor="#FFC107"
-                    android:textSize="25sp"
+                    android:textColor="#E68A2E"
+                    android:textSize="20sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </LinearLayout>
@@ -62,7 +62,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:layout_marginTop="12dp"
         android:background="@drawable/bg_rounded_top_panel"
         android:orientation="vertical"
@@ -71,11 +72,32 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="13dp"
+            android:layout_marginBottom="12dp"
             android:text="  New Product"
-            android:textColor="#2E7D32"
-            android:textSize="25sp"
+            android:textColor="#FFFFFF"
+            android:textSize="18sp"
             android:textStyle="bold" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardSearch"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginStart="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="#222E24"
+            app:cardCornerRadius="21dp"
+            app:cardElevation="0dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:text="Cari Produk Daur Ulang..."
+                android:textColor="#829086"
+                android:textSize="14sp" />
+        </androidx.cardview.widget.CardView>
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rvMarketplace"
@@ -86,4 +108,52 @@
             tools:listitem="@layout/item_grid_barang" />
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="#0A0F0C"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:weightSum="4">
+
+        <ImageView
+            android:id="@+id/navHome"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_weight="1"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:src="@drawable/home"
+            app:tint="#4A5C50" />
+
+        <ImageView
+            android:id="@+id/navMap"
+            android:layout_width="0dp"
+            android:layout_height="28dp"
+            android:layout_weight="1"
+            android:src="@android:drawable/ic_dialog_map"
+            app:tint="#4A5C50" />
+
+        <ImageView
+            android:id="@+id/navMarket"
+            android:layout_width="0dp"
+            android:layout_height="28dp"
+            android:layout_weight="1"
+            android:src="@drawable/ic_market"
+            app:tint="#4A5C50" />
+
+        <ImageView
+            android:id="@+id/navProfile"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:src="@android:drawable/ic_menu_info_details"
+            app:tint="#4A5C50" />
+
+    </LinearLayout>
+
 </LinearLayout>

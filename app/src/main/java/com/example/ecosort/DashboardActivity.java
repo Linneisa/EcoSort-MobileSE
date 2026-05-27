@@ -23,7 +23,8 @@ public class DashboardActivity extends AppCompatActivity {
             return insets;
         });
 
-        Button btnTps = findViewById(R.id.btnKeTps);
+        // Menggunakan 'View' karena kotak menunya kemungkinan adalah LinearLayout/CardView
+        View btnTps = findViewById(R.id.btnKeTps);
         btnTps.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -32,7 +33,7 @@ public class DashboardActivity extends AppCompatActivity {
             }
         });
 
-        Button btnMarketplace = findViewById(R.id.btnKeMarketplace);
+        View btnMarketplace = findViewById(R.id.btnKeMarketplace);
         btnMarketplace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
