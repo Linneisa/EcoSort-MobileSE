@@ -20,5 +20,24 @@ public class TpsActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+        android.widget.ListView listViewTps = findViewById(R.id.listTps);
+
+        String[] dataTps = {
+                "TPS Terpadu Babakan Siliwangi - Jl. Siliwangi",
+                "TPS Pajajaran - Jl. Pajajaran",
+                "TPS Ciroyom - Pasar Ciroyom Barat",
+                "TPS Tamansari - Kawasan Tamansari",
+                "TPS Tegalega - Kawasan Monumen BLA",
+                "TPS Pahlawan - Jl. Cikutra Barat"
+        };
+
+        android.widget.ArrayAdapter<String> adapter = new android.widget.ArrayAdapter<>(
+                this,
+                android.R.layout.simple_list_item_1,
+                dataTps
+        );
+
+        listViewTps.setAdapter(adapter);
+
     }
 }
