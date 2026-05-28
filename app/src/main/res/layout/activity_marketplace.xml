@@ -33,6 +33,30 @@
             android:textSize="12sp" />
     </RelativeLayout>
 
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginHorizontal="24dp"
+        android:layout_marginBottom="16dp"
+        app:cardBackgroundColor="#12241A"
+        app:cardCornerRadius="23dp"
+        app:cardElevation="0dp">
+
+        <EditText
+            android:id="@+id/etCariBarang"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            android:hint="Cari barang (cth: Botol Plastik)..."
+            android:textColorHint="#475569"
+            android:textColor="#FFFFFF"
+            android:paddingHorizontal="20dp"
+            android:textSize="14sp"
+            android:inputType="text"
+            android:maxLines="1"
+            android:imeOptions="actionSearch" />
+    </androidx.cardview.widget.CardView>
+
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

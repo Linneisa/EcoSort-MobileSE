@@ -1,25 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/navigation_home"
-        android:icon="@android:drawable/ic_menu_today"
-        android:title="Beranda" />
+        android:id="@+id/nav_home"
+        android:icon="@android:drawable/ic_menu_compass"
+        android:title="Home" />
     <item
-        android:id="@+id/navigation_map"
-        android:icon="@android:drawable/ic_dialog_map"
-        android:title="Peta" />
-
+        android:id="@+id/nav_riwayat"
+        android:icon="@android:drawable/ic_menu_recent_history"
+        android:title="Riwayat" />
     <item
-        android:id="@+id/placeholder"
-        android:title=""
-        android:enabled="false" />
-
-    <item
-        android:id="@+id/navigation_market"
-        android:icon="@android:drawable/ic_menu_gallery"
-        android:title="Pasar" />
-    <item
-        android:id="@+id/navigation_profile"
+        android:id="@+id/nav_profil"
         android:icon="@android:drawable/ic_menu_myplaces"
         android:title="Profil" />
 </menu>

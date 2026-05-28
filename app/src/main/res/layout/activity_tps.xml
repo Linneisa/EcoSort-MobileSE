@@ -74,14 +74,11 @@
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
-            <GridView
-                android:id="@+id/gridTps"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvTps"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingHorizontal="16dp"
-                android:numColumns="2"
-                android:horizontalSpacing="12dp"
-                android:verticalSpacing="12dp"
                 android:nestedScrollingEnabled="false"
                 android:scrollbars="none" />
 

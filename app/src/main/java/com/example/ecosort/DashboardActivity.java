@@ -2,12 +2,14 @@ package com.example.ecosort;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-// BARIS UTAMA YANG WAJIB ADA AGAR CARDVIEW DIKENALI:
 import androidx.cardview.widget.CardView;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class DashboardActivity extends AppCompatActivity {
 
@@ -17,50 +19,60 @@ public class DashboardActivity extends AppCompatActivity {
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_dashboard);
 
-        // 1. Hubungkan Menu Grid Peta TPS
+        // =======================================================
+        // 1. KLIK KARTU POIN -> MENUJU RIWAYAT
+        // =======================================================
+        CardView kartuPoin = findViewById(R.id.kartuPoin);
+        kartuPoin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intentRiwayat = new Intent(DashboardActivity.this, RiwayatActivity.class);
+                startActivity(intentRiwayat);
+            }
+        });
+
+        // =======================================================
+        // 2. KLIK MENU GRID (Fitur Utama)
+        // =======================================================
         CardView menuPeta = findViewById(R.id.menuPeta);
-        menuPeta.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentTps = new Intent(DashboardActivity.this, TpsActivity.class);
-                startActivity(intentTps);
-            }
-        });
+        menuPeta.setOnClickListener(v -> startActivity(new Intent(DashboardActivity.this, TpsActivity.class)));
 
-        // 2. Hubungkan Menu Grid Marketplace
         CardView menuMarketplace = findViewById(R.id.menuMarketplace);
-        menuMarketplace.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intentMarket = new Intent(DashboardActivity.this, MarketplaceActivity.class);
-                startActivity(intentMarket);
-            }
-        });
+        menuMarketplace.setOnClickListener(v -> startActivity(new Intent(DashboardActivity.this, MarketplaceActivity.class)));
 
-        // 3. Hubungkan Menu Grid Jadwal Pengambilan
         CardView menuJadwal = findViewById(R.id.menuJadwal);
-        menuJadwal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // 1. Munculkan toast pesan (opsional, biar keren)
-               // Toast.makeText(DashboardActivity.this, "Membuka Jadwal Pengambilan...", Toast.LENGTH_SHORT).show();
+        menuJadwal.setOnClickListener(v -> startActivity(new Intent(DashboardActivity.this, JadwalActivity.class)));
 
-                // 2. Tambahkan baris Intent ini untuk MEMAKSA PINDAH HALAMAN:
-                Intent intentJadwal = new Intent(DashboardActivity.this, JadwalActivity.class);
-                startActivity(intentJadwal);
-            }
-        });
-
-        // 4. Hubungkan Menu Grid Reward
         CardView menuReward = findViewById(R.id.menuReward);
-        menuReward.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Baris Toast lama sudah dihapus agar tidak memunculkan notifikasi di bawah layar
+        menuReward.setOnClickListener(v -> startActivity(new Intent(DashboardActivity.this, RewardActivity.class)));
 
-                // Tambahkan baris Intent ini untuk memaksa pindah halaman:
-                Intent intentReward = new Intent(DashboardActivity.this, RewardActivity.class);
-                startActivity(intentReward);
+        // =======================================================
+        // 3. LOGIKA BOTTOM NAVIGATION
+        // =======================================================
+        BottomNavigationView bottomNav = findViewById(R.id.bottomNavigation);
+
+        // Atur agar ikon "Home" menyala saat berada di halaman ini
+        bottomNav.setSelectedItemId(R.id.nav_home);
+
+        bottomNav.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                int itemId = item.getItemId();
+
+                if (itemId == R.id.nav_home) {
+                    return true; // Sudah di halaman Home, tidak perlu pindah
+                } else if (itemId == R.id.nav_riwayat) {
+                    startActivity(new Intent(DashboardActivity.this, RiwayatActivity.class));
+                    // Supaya animasinya mulus
+                    overridePendingTransition(0, 0);
+                    return true;
+                } else if (itemId == R.id.nav_profil) {
+                    // Karena belum ada halaman Profil, kita beri Toast saja sementara
+                    Toast.makeText(DashboardActivity.this, "Halaman Profil segera hadir!", Toast.LENGTH_SHORT).show();
+                    return false; // Jangan menyalakan ikon jika belum pindah halaman
+                }
+
+                return false;
             }
         });
     }

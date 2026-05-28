@@ -2,6 +2,9 @@ package com.example.ecosort;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.widget.EditText;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -12,25 +15,30 @@ import java.util.List;
 public class MarketplaceActivity extends AppCompatActivity {
 
     private TextView btnSemua, btnOrganik, btnPlastik, btnLogam;
+    private EditText etCariBarang;
     private RecyclerView rvMarketplace;
     private List<Produk> semuaProdukList;
+
+    // VARIABEL BARU: Untuk mengingat kategori apa yang sedang diklik user
+    private String kategoriSaatIni = "Semua";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marketplace);
 
-        // Inisialisasi Filter (Komponen Navigasi Sudah Dihapus)
+        // Inisialisasi Komponen
         btnSemua = findViewById(R.id.btnFilterSemua);
         btnOrganik = findViewById(R.id.btnFilterOrganik);
         btnPlastik = findViewById(R.id.btnFilterPlastik);
         btnLogam = findViewById(R.id.btnFilterLogam);
+        etCariBarang = findViewById(R.id.etCariBarang);
 
-        // Setup RecyclerView Grid 2 Kolom
+        // Setup RecyclerView Grid
         rvMarketplace = findViewById(R.id.rvMarketplace);
         rvMarketplace.setLayoutManager(new GridLayoutManager(this, 2));
 
-        // Isi Data Barang Tiruan
+        // Isi Data
         semuaProdukList = new ArrayList<>();
         semuaProdukList.add(new Produk("Botol Plastik PET", "500 pts", "/1 kg", "Plastik"));
         semuaProdukList.add(new Produk("Kardus Bekas Tebal", "350 pts", "/1 kg", "Organik"));
@@ -39,40 +47,70 @@ public class MarketplaceActivity extends AppCompatActivity {
         semuaProdukList.add(new Produk("Gelas Plastik Air Mineral", "400 pts", "/1 kg", "Plastik"));
         semuaProdukList.add(new Produk("Besi Siku Bekas", "1.500 pts", "/1 kg", "Logam"));
 
-        // Tampilkan barang awal
-        tampilkanDataKeGrid(semuaProdukList);
+        // Tampilan Pertama Kali Buka
+        perbaruiTampilan();
 
-        // Filter klik
+        // Sensor Ketikan
+        etCariBarang.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                perbaruiTampilan(); // Panggil mesin utama setiap ada huruf yang diketik
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+
+        // Tombol Filter Kategori (Sekarang tidak akan mereset teks pencarian)
         btnSemua.setOnClickListener(v -> {
             setKategoriAktif(btnSemua);
-            tampilkanDataKeGrid(semuaProdukList);
+            kategoriSaatIni = "Semua";
+            perbaruiTampilan();
         });
         btnOrganik.setOnClickListener(v -> {
             setKategoriAktif(btnOrganik);
-            filterData("Organik");
+            kategoriSaatIni = "Organik";
+            perbaruiTampilan();
         });
         btnPlastik.setOnClickListener(v -> {
             setKategoriAktif(btnPlastik);
-            filterData("Plastik");
+            kategoriSaatIni = "Plastik";
+            perbaruiTampilan();
         });
         btnLogam.setOnClickListener(v -> {
             setKategoriAktif(btnLogam);
-            filterData("Logam");
+            kategoriSaatIni = "Logam";
+            perbaruiTampilan();
         });
     }
 
-    private void filterData(String kategori) {
-        List<Produk> filteredList = new ArrayList<>();
+    // =========================================================================
+    // MESIN UTAMA: Menyaring berdasarkan Kategori AND Ketikan Pencarian
+    // =========================================================================
+    private void perbaruiTampilan() {
+        String keyword = etCariBarang.getText().toString().trim().toLowerCase();
+        List<Produk> listTersaring = new ArrayList<>();
+
         for (Produk p : semuaProdukList) {
-            if (p.getKategori().equalsIgnoreCase(kategori)) {
-                filteredList.add(p);
+            // 1. Apakah barang ini sesuai dengan tab yang sedang diklik?
+            boolean cocokKategori = kategoriSaatIni.equals("Semua") || p.getKategori().equalsIgnoreCase(kategoriSaatIni);
+
+            // 2. Apakah nama barang ini mengandung huruf yang sedang diketik?
+            boolean cocokKeyword = p.getNama().toLowerCase().contains(keyword);
+
+            // Jika KEDUANYA cocok, baru tampilkan di layar
+            if (cocokKategori && cocokKeyword) {
+                listTersaring.add(p);
             }
         }
-        tampilkanDataKeGrid(filteredList);
+        tampilkanDataKeGrid(listTersaring);
     }
 
     private void tampilkanDataKeGrid(List<Produk> list) {
-        ProdukAdapter adapter = new ProdukAdapter(list);
+        ProdukAdapter adapter = new ProdukAdapter(this, list);
         rvMarketplace.setAdapter(adapter);
     }
 
