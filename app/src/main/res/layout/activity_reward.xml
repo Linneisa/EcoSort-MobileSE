@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://tools.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.github.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -14,23 +14,28 @@
         android:paddingTop="24dp"
         android:paddingBottom="16dp">
 
+        <ImageView
+            android:id="@+id/btnBackReward"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@id/txtJudulReward"
+            android:layout_alignBottom="@id/txtJudulReward"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_revert"
+            app:tint="#E2E8F0" />
+
         <TextView
             android:id="@+id/txtJudulReward"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/btnBackReward"
+            android:layout_marginStart="12dp"
             android:text="Tukar Poin Eco"
             android:textColor="#E2E8F0"
             android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/txtJudulReward"
-            android:layout_marginTop="4dp"
-            android:text="Poin kamu: 4.500 pts"
-            android:textColor="#34D399"
-            android:textSize="14sp"
             android:textStyle="bold" />
     </RelativeLayout>
 
@@ -39,6 +44,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingHorizontal="16dp"
-        android:clipToPadding="false" />
+        android:clipToPadding="false"
+        tools:listitem="@layout/item_reward" />
 
 </LinearLayout>

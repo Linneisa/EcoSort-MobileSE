@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
+import android.widget.ImageView; // 👇 Import ImageView ditambahkan
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -18,6 +19,7 @@ public class MarketplaceActivity extends AppCompatActivity {
     private EditText etCariBarang;
     private RecyclerView rvMarketplace;
     private List<Produk> semuaProdukList;
+    private ImageView btnBackMarketplace; // 👇 Tambahkan variabel untuk tombol back manual
 
     // VARIABEL BARU: Untuk mengingat kategori apa yang sedang diklik user
     private String kategoriSaatIni = "Semua";
@@ -27,7 +29,13 @@ public class MarketplaceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marketplace);
 
-        // Inisialisasi Komponen
+        // 👇 PERBAIKAN: Hubungkan tombol back manual dari XML dan beri logika klik
+        btnBackMarketplace = findViewById(R.id.btnBackMarketplace);
+        btnBackMarketplace.setOnClickListener(v -> {
+            onBackPressed(); // Menutup halaman ini dan otomatis kembali ke Home
+        });
+
+        // Inisialisasi Komponen Lainnya
         btnSemua = findViewById(R.id.btnFilterSemua);
         btnOrganik = findViewById(R.id.btnFilterOrganik);
         btnPlastik = findViewById(R.id.btnFilterPlastik);
@@ -38,14 +46,14 @@ public class MarketplaceActivity extends AppCompatActivity {
         rvMarketplace = findViewById(R.id.rvMarketplace);
         rvMarketplace.setLayoutManager(new GridLayoutManager(this, 2));
 
-        // Isi Data
+        // Pengisian Data
         semuaProdukList = new ArrayList<>();
-        semuaProdukList.add(new Produk("Botol Plastik PET", "500 pts", "/1 kg", "Plastik"));
-        semuaProdukList.add(new Produk("Kardus Bekas Tebal", "350 pts", "/1 kg", "Organik"));
-        semuaProdukList.add(new Produk("Kaleng Soda Aluminium", "800 pts", "/1 kg", "Logam"));
-        semuaProdukList.add(new Produk("Minyak Jelantah Jernih", "1.200 pts", "/1 ltr", "Organik"));
-        semuaProdukList.add(new Produk("Gelas Plastik Air Mineral", "400 pts", "/1 kg", "Plastik"));
-        semuaProdukList.add(new Produk("Besi Siku Bekas", "1.500 pts", "/1 kg", "Logam"));
+        semuaProdukList.add(new Produk("Botol Plastik PET", "500 pts", "/1 kg", "Plastik", R.drawable.img_botol));
+        semuaProdukList.add(new Produk("Kardus Bekas Tebal", "350 pts", "/1 kg", "Organik", R.drawable.img_kardus));
+        semuaProdukList.add(new Produk("Kaleng Soda Aluminium", "800 pts", "/1 kg", "Logam", R.drawable.img_kaleng));
+        semuaProdukList.add(new Produk("Minyak Jelantah Jernih", "1.200 pts", "/1 ltr", "Organik", R.drawable.img_minyak));
+        semuaProdukList.add(new Produk("Gelas Plastik Air Mineral", "400 pts", "/1 kg", "Plastik", R.drawable.img_gelas));
+        semuaProdukList.add(new Produk("Besi Siku Bekas", "1.500 pts", "/1 kg", "Logam", R.drawable.img_besi));
 
         // Tampilan Pertama Kali Buka
         perbaruiTampilan();
@@ -57,14 +65,14 @@ public class MarketplaceActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                perbaruiTampilan(); // Panggil mesin utama setiap ada huruf yang diketik
+                perbaruiTampilan();
             }
 
             @Override
             public void afterTextChanged(Editable s) {}
         });
 
-        // Tombol Filter Kategori (Sekarang tidak akan mereset teks pencarian)
+        // Tombol Filter Kategori
         btnSemua.setOnClickListener(v -> {
             setKategoriAktif(btnSemua);
             kategoriSaatIni = "Semua";
@@ -95,13 +103,9 @@ public class MarketplaceActivity extends AppCompatActivity {
         List<Produk> listTersaring = new ArrayList<>();
 
         for (Produk p : semuaProdukList) {
-            // 1. Apakah barang ini sesuai dengan tab yang sedang diklik?
             boolean cocokKategori = kategoriSaatIni.equals("Semua") || p.getKategori().equalsIgnoreCase(kategoriSaatIni);
-
-            // 2. Apakah nama barang ini mengandung huruf yang sedang diketik?
             boolean cocokKeyword = p.getNama().toLowerCase().contains(keyword);
 
-            // Jika KEDUANYA cocok, baru tampilkan di layar
             if (cocokKategori && cocokKeyword) {
                 listTersaring.add(p);
             }

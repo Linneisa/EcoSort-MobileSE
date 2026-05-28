@@ -14,18 +14,27 @@
         android:orientation="vertical"
         android:padding="12dp">
 
-        <ImageView
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:scaleType="centerInside"
-            android:src="@android:drawable/ic_menu_revert"
-            app:tint="#34D399" />
+            android:layout_height="120dp"
+            app:cardBackgroundColor="#FFFFFF"
+            app:cardCornerRadius="12dp"
+            app:cardElevation="0dp">
+
+            <ImageView
+                android:id="@+id/imgReward"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="8dp"
+                android:scaleType="centerInside"
+                android:src="@android:drawable/ic_menu_revert" />
+        </androidx.cardview.widget.CardView>
 
         <TextView
             android:id="@+id/txtNamaReward"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:text="Voucher Belanja Rp50k"
             android:textColor="#FFFFFF"
             android:textSize="14sp"

@@ -1,21 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.github.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#07140E">
 
-    <TextView
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Jadwal Pengambilan"
-        android:textSize="24sp"
-        android:textStyle="bold"
-        android:textColor="#E2E8F0"
         android:paddingHorizontal="24dp"
         android:paddingTop="24dp"
-        android:paddingBottom="16dp" />
+        android:paddingBottom="16dp">
+
+        <ImageView
+            android:id="@+id/btnBackJadwal"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignTop="@id/txtJudulJadwal"
+            android:layout_alignBottom="@id/txtJudulJadwal"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:src="@android:drawable/ic_menu_revert"
+            app:tint="#E2E8F0" />
+
+        <TextView
+            android:id="@+id/txtJudulJadwal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/btnBackJadwal"
+            android:layout_marginStart="12dp"
+            android:text="Jadwal Pengambilan"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="#E2E8F0" />
+    </RelativeLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvJadwal"

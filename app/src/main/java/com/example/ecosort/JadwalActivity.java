@@ -1,6 +1,7 @@
 package com.example.ecosort;
 
 import android.os.Bundle;
+import android.widget.ImageView; // 👇 Tambahan import ImageView
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -10,11 +11,18 @@ import java.util.List;
 public class JadwalActivity extends AppCompatActivity {
 
     private RecyclerView rvJadwal;
+    private ImageView btnBackJadwal; // 👇 Tambahan variabel untuk tombol back manual
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jadwal);
+
+        // 👇 PERBAIKAN: Hubungkan tombol back manual dari XML dan beri logika klik
+        btnBackJadwal = findViewById(R.id.btnBackJadwal);
+        btnBackJadwal.setOnClickListener(v -> {
+            onBackPressed(); // Menutup halaman ini dan otomatis kembali ke Home
+        });
 
         // Setup RecyclerView Vertikal biasa (LinearLayoutManager)
         rvJadwal = findViewById(R.id.rvJadwal);

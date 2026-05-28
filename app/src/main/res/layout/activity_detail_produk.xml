@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#07140E"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp">
+
+        <ImageView
+            android:id="@+id/btnBackDetail"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:clickable="true"
+            android:focusable="true"
+            android:src="@android:drawable/ic_menu_revert"
+            app:tint="#FFFFFF" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Detail Sampah"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:layout_marginBottom="20dp"
+        app:cardBackgroundColor="#132A1E"
+        app:cardCornerRadius="18dp"
+        app:cardElevation="0dp">
+
+        <ImageView
+            android:id="@+id/imgDetailProduk"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="centerCrop"
+            android:src="@android:drawable/ic_menu_gallery" />
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:id="@+id/txtNamaDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Nama Sampah"
+        android:textColor="#E2E8F0"
+        android:textSize="22sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/txtHargaDetail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="500 pts/kg"
+        android:textColor="#34D399"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="28dp"
+        android:text="Masukkan Estimasi Berat (kg)"
+        android:textColor="#94A3B8"
+        android:textSize="14sp" />
+
+    <EditText
+        android:id="@+id/edtBeratEstimasi"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:drawable/edit_text"
+        android:backgroundTint="#0D1F16"
+        android:hint="Contoh: 2"
+        android:inputType="numberDecimal"
+        android:paddingHorizontal="16dp"
+        android:textColor="#FFFFFF"
+        android:textColorHint="#475569" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@android:drawable/dialog_holo_dark_frame"
+        android:backgroundTint="#0D1F16"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Estimasi Poin Yang Didapat:"
+            android:textColor="#94A3B8"
+            android:textSize="13sp" />
+
+        <TextView
+            android:id="@+id/txtTotalPoinEstimasi"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="0 pts"
+            android:textColor="#34D399"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/btnTambahKeranjang"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:backgroundTint="#34D399"
+        android:text="Tambah ke Keranjang"
+        android:textColor="#07140E"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:cornerRadius="14dp" />
+
+</LinearLayout>

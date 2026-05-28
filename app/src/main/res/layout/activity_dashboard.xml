@@ -10,8 +10,8 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingBottom="80dp"
-        android:clipToPadding="false">
+        android:clipToPadding="false"
+        android:paddingBottom="80dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -22,13 +22,16 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp">
+                android:layout_height="wrap_content">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_alignParentStart="true"
+                    android:layout_centerVertical="true"
+                    android:layout_toStartOf="@id/ivFotoProfilHome"
+                    android:orientation="vertical"
+                    android:paddingEnd="16dp">
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -39,6 +42,7 @@
                         android:textStyle="bold" />
 
                     <TextView
+                        android:id="@+id/tvSelamatPagi"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="4dp"
@@ -47,25 +51,23 @@
                         android:textSize="15sp" />
                 </LinearLayout>
 
-                <androidx.cardview.widget.CardView
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:id="@+id/ivFotoProfilHome"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
                     android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
-                    app:cardBackgroundColor="#132A1E"
-                    app:cardCornerRadius="20dp"
-                    app:cardElevation="0dp">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:text="BD"
-                        android:textColor="#34D399"
-                        android:textSize="14sp"
-                        android:textStyle="bold" />
-                </androidx.cardview.widget.CardView>
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:foreground="?attr/selectableItemBackground"
+                    android:scaleType="centerCrop"
+                    android:src="@android:drawable/sym_def_app_icon"
+                    app:shapeAppearanceOverlay="@style/CircleImageView" />
             </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="24dp" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/kartuPoin"
@@ -88,11 +90,11 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:letterSpacing="0.05"
                         android:text="POIN REWARD KAMU"
                         android:textColor="#A7F3D0"
                         android:textSize="11sp"
-                        android:textStyle="bold"
-                        android:letterSpacing="0.05" />
+                        android:textStyle="bold" />
 
                     <LinearLayout
                         android:layout_width="wrap_content"
@@ -104,11 +106,11 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:includeFontPadding="false"
                             android:text="2.450"
                             android:textColor="#FFFFFF"
                             android:textSize="42sp"
-                            android:textStyle="bold"
-                            android:includeFontPadding="false" />
+                            android:textStyle="bold" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -168,17 +170,17 @@
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:columnCount="2"
-                android:rowCount="2"
                 android:alignmentMode="alignMargins"
-                android:columnOrderPreserved="false">
+                android:columnCount="2"
+                android:columnOrderPreserved="false"
+                android:rowCount="2">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/menuPeta"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
-                    android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
                     android:layout_margin="6dp"
                     android:clickable="true"
                     android:focusable="true"
@@ -212,10 +214,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
+                            android:maxLines="2"
                             android:text="Lokasi tempat sampah terdekat"
                             android:textColor="#64748B"
-                            android:textSize="11sp"
-                            android:maxLines="2" />
+                            android:textSize="11sp" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -223,8 +225,8 @@
                     android:id="@+id/menuJadwal"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
-                    android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
                     android:layout_margin="6dp"
                     android:clickable="true"
                     android:focusable="true"
@@ -258,10 +260,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
+                            android:maxLines="2"
                             android:text="Pengingat &amp; rute truk"
                             android:textColor="#64748B"
-                            android:textSize="11sp"
-                            android:maxLines="2" />
+                            android:textSize="11sp" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -269,8 +271,8 @@
                     android:id="@+id/menuMarketplace"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
-                    android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
                     android:layout_margin="6dp"
                     android:clickable="true"
                     android:focusable="true"
@@ -304,10 +306,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
+                            android:maxLines="2"
                             android:text="Jual beli sampah daur ulang"
                             android:textColor="#64748B"
-                            android:textSize="11sp"
-                            android:maxLines="2" />
+                            android:textSize="11sp" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -315,8 +317,8 @@
                     android:id="@+id/menuReward"
                     android:layout_width="0dp"
                     android:layout_height="150dp"
-                    android:layout_columnWeight="1"
                     android:layout_rowWeight="1"
+                    android:layout_columnWeight="1"
                     android:layout_margin="6dp"
                     android:clickable="true"
                     android:focusable="true"
@@ -350,10 +352,10 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
+                            android:maxLines="2"
                             android:text="Tukar poin dengan hadiah"
                             android:textColor="#64748B"
-                            android:textSize="11sp"
-                            android:maxLines="2" />
+                            android:textSize="11sp" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -367,9 +369,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="#050F0B"
-        app:menu="@menu/bottom_nav_menu"
+        app:elevation="8dp"
         app:itemIconTint="@color/nav_item_colors"
         app:itemTextColor="@color/nav_item_colors"
-        app:elevation="8dp"/>
+        app:menu="@menu/bottom_nav_menu" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#07140E"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp">
+
+        <ImageView
+            android:id="@+id/btnBackKeranjang"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
+            android:src="@android:drawable/ic_menu_revert"
+            app:tint="#FFFFFF" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="Keranjang EcoSort"
+            android:textColor="#FFFFFF"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        app:cardBackgroundColor="#0D1F16"
+        app:cardCornerRadius="16dp"
+        app:cardElevation="0dp">
+
+        <RelativeLayout
+            android:padding="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/txtNamaItemKeranjang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Item Sampah"
+                android:textColor="#E2E8F0"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/txtDetailBeratKeranjang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/txtNamaItemKeranjang"
+                android:layout_marginTop="4dp"
+                android:text="Estimasi: 0 kg"
+                android:textColor="#64748B"
+                android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/txtSubtotalPoin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:text="0 pts"
+                android:textColor="#34D399"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+        </RelativeLayout>
+    </androidx.cardview.widget.CardView>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Pilih Metode Penyerahan"
+        android:textColor="#94A3B8"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="12dp" />
+
+    <RadioGroup
+        android:id="@+id/rgMetodePenyerahan"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/rbDropOff"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:layout_marginBottom="12dp"
+            android:background="@android:drawable/dialog_holo_dark_frame"
+            android:backgroundTint="#0D1F16"
+            android:buttonTint="#34D399"
+            android:paddingHorizontal="12dp"
+            android:text="Drop-off (Antar Mandiri ke TPS)"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"
+            android:checked="true"/>
+
+        <RadioButton
+            android:id="@+id/rbPickUp"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@android:drawable/dialog_holo_dark_frame"
+            android:backgroundTint="#0D1F16"
+            android:buttonTint="#34D399"
+            android:paddingHorizontal="12dp"
+            android:text="Pick-up (Jemput oleh Truk EcoSort)"
+            android:textColor="#FFFFFF"
+            android:textSize="14sp"/>
+    </RadioGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <Button
+        android:id="@+id/btnTukarSekarang"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:backgroundTint="#34D399"
+        android:text="Tukar Sekarang"
+        android:textColor="#07140E"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:cornerRadius="14dp" />
+
+</LinearLayout>

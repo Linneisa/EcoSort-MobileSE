@@ -2,6 +2,7 @@ package com.example.ecosort;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.widget.ImageView; // 👇 Tambahan import ImageView
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,11 +15,18 @@ public class RiwayatActivity extends AppCompatActivity {
     private TextView btnSemua, btnMasuk, btnKeluar;
     private RecyclerView rvRiwayat;
     private List<Riwayat> semuaRiwayatList;
+    private ImageView btnBackHistory; // 👇 Tambahan variabel untuk tombol back manual
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_riwayat);
+
+        // 👇 PERBAIKAN: Hubungkan tombol back manual dari XML dan beri logika klik
+        btnBackHistory = findViewById(R.id.btnBackHistory);
+        btnBackHistory.setOnClickListener(v -> {
+            onBackPressed(); // Menutup halaman ini dan otomatis kembali ke halaman sebelumnya
+        });
 
         // 1. Inisialisasi Komponen
         btnSemua = findViewById(R.id.btnFilterSemua);
