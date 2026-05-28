@@ -3,6 +3,8 @@
     <style name="Base.Theme.EcoSort" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">#34D399</item>
         <item name="android:windowBackground">#07140E</item>
+        <item name="colorSecondaryContainer">#113C24</item>
+        <item name="colorOnSecondaryContainer">#34D399</item>
     </style>
 
     <style name="Theme.EcoSort" parent="Base.Theme.EcoSort" />

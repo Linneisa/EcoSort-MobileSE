@@ -67,9 +67,8 @@ public class DashboardActivity extends AppCompatActivity {
                     overridePendingTransition(0, 0);
                     return true;
                 } else if (itemId == R.id.nav_profil) {
-                    // Karena belum ada halaman Profil, kita beri Toast saja sementara
                     Toast.makeText(DashboardActivity.this, "Halaman Profil segera hadir!", Toast.LENGTH_SHORT).show();
-                    return false; // Jangan menyalakan ikon jika belum pindah halaman
+                    return false;
                 }
 
                 return false;

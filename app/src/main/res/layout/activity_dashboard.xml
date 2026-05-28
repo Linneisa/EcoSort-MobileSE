@@ -364,12 +364,12 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigation"
         android:layout_width="match_parent"
-        android:layout_height="65dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="#050F0B"
         app:menu="@menu/bottom_nav_menu"
-        app:itemIconTint="#64748B"
-        app:itemTextColor="#64748B"
+        app:itemIconTint="@color/nav_item_colors"
+        app:itemTextColor="@color/nav_item_colors"
         app:elevation="8dp"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
