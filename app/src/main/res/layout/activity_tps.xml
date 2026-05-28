@@ -51,16 +51,12 @@
                 app:cardElevation="0dp"
                 app:cardBackgroundColor="#0B1C14">
 
-                <FrameLayout
+                <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Map View Placeholder"
-                        android:textColor="#475569"
-                        android:layout_gravity="center" />
-                </FrameLayout>
+                    android:layout_height="match_parent"
+                    android:src="@drawable/img_maps"
+                    android:scaleType="centerCrop" />
+
             </androidx.cardview.widget.CardView>
 
             <TextView
