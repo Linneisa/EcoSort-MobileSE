@@ -1,12 +1,11 @@
 package com.example.ecosort;
 
-import android.content.Intent; // <--- Tambahkan ini
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
@@ -22,7 +21,7 @@ public class UbahProfilActivity extends AppCompatActivity {
                 if (uri != null) {
                     imageUri = uri;
                     ivFotoProfil.setImageURI(uri);
-                    // Ambil izin akses permanen agar foto tidak hilang setelah restart
+                    // Ambil izin akses agar URI tetap valid setelah restart
                     getContentResolver().takePersistableUriPermission(uri, Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 }
             });
@@ -41,22 +40,32 @@ public class UbahProfilActivity extends AppCompatActivity {
         EditText etNomorHP = findViewById(R.id.etNomorHP);
         EditText etEmail = findViewById(R.id.etEmail);
 
+        // Load data lama
         etNama.setText(prefs.getString("nama", ""));
         etNomorHP.setText(prefs.getString("hp", ""));
         etEmail.setText(prefs.getString("email", ""));
 
-        String savedUri = prefs.getString("foto_uri", null);
-        if (savedUri != null) ivFotoProfil.setImageURI(Uri.parse(savedUri));
+        // Load foto dengan kunci yang seragam: "foto_profil_path"
+        String savedUri = prefs.getString("foto_profil_path", null);
+        if (savedUri != null) {
+            ivFotoProfil.setImageURI(Uri.parse(savedUri));
+        }
 
+        // Tombol Simpan
         findViewById(R.id.btnSimpan).setOnClickListener(v -> {
             SharedPreferences.Editor editor = prefs.edit();
             editor.putString("nama", etNama.getText().toString());
             editor.putString("hp", etNomorHP.getText().toString());
             editor.putString("email", etEmail.getText().toString());
-            if (imageUri != null) editor.putString("foto_uri", imageUri.toString());
+
+            // Simpan dengan kunci yang seragam: "foto_profil_path"
+            if (imageUri != null) {
+                editor.putString("foto_profil_path", imageUri.toString());
+            }
+
             editor.apply();
-            Toast.makeText(this, "Profil disimpan!", Toast.LENGTH_SHORT).show();
-            finish();
+            Toast.makeText(this, "Profil berhasil disimpan!", Toast.LENGTH_SHORT).show();
+            finish(); // Kembali ke halaman ProfilActivity
         });
     }
 }

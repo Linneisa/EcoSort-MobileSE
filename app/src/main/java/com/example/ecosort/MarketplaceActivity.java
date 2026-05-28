@@ -1,11 +1,15 @@
 package com.example.ecosort;
 
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.widget.EditText;
-import android.widget.ImageView; // 👇 Import ImageView ditambahkan
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -19,7 +23,7 @@ public class MarketplaceActivity extends AppCompatActivity {
     private EditText etCariBarang;
     private RecyclerView rvMarketplace;
     private List<Produk> semuaProdukList;
-    private ImageView btnBackMarketplace; // 👇 Tambahkan variabel untuk tombol back manual
+    private ImageView btnBackMarketplace;
 
     // VARIABEL BARU: Untuk mengingat kategori apa yang sedang diklik user
     private String kategoriSaatIni = "Semua";
@@ -29,10 +33,10 @@ public class MarketplaceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_marketplace);
 
-        // 👇 PERBAIKAN: Hubungkan tombol back manual dari XML dan beri logika klik
+        // 👇 PERBAIKAN: Menggunakan OnBackPressedDispatcher terbaru agar seirama dengan TpsActivity
         btnBackMarketplace = findViewById(R.id.btnBackMarketplace);
         btnBackMarketplace.setOnClickListener(v -> {
-            onBackPressed(); // Menutup halaman ini dan otomatis kembali ke Home
+            getOnBackPressedDispatcher().onBackPressed();
         });
 
         // Inisialisasi Komponen Lainnya
@@ -93,7 +97,33 @@ public class MarketplaceActivity extends AppCompatActivity {
             kategoriSaatIni = "Logam";
             perbaruiTampilan();
         });
-    }
+
+        // =======================================================
+        // TAMBAHAN: Logika Klik Foto Profil ke ProfilActivity
+        // =======================================================
+        androidx.cardview.widget.CardView btnProfilTop = findViewById(R.id.btnProfilTop);
+        if (btnProfilTop != null) {
+            btnProfilTop.setOnClickListener(v -> {
+                Intent intent = new Intent(MarketplaceActivity.this, ProfilActivity.class);
+                startActivity(intent);
+            });
+        }
+
+        // =======================================================
+        // TAMBAHAN DINAMIS: Ambil Foto Profil dari SharedPreferences
+        // =======================================================
+        ImageView imgProfilHeader = findViewById(R.id.imgProfilHeader);
+        if (imgProfilHeader != null) {
+            SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+            String fotoPath = sharedPref.getString("foto_profil_path", null);
+
+            if (fotoPath != null) {
+                imgProfilHeader.setImageURI(Uri.parse(fotoPath));
+            } else {
+                imgProfilHeader.setImageResource(android.R.drawable.sym_def_app_icon);
+            }
+        }
+    } // <-- Batas akhir fungsi onCreate
 
     // =========================================================================
     // MESIN UTAMA: Menyaring berdasarkan Kategori AND Ketikan Pencarian

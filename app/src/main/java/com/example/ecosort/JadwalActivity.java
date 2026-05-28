@@ -1,7 +1,11 @@
 package com.example.ecosort;
 
+import android.content.Context;
+import android.content.Intent; // 👇 Tambahan import Intent untuk pindah halaman
+import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
-import android.widget.ImageView; // 👇 Tambahan import ImageView
+import android.widget.ImageView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,17 +15,17 @@ import java.util.List;
 public class JadwalActivity extends AppCompatActivity {
 
     private RecyclerView rvJadwal;
-    private ImageView btnBackJadwal; // 👇 Tambahan variabel untuk tombol back manual
+    private ImageView btnBackJadwal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jadwal);
 
-        // 👇 PERBAIKAN: Hubungkan tombol back manual dari XML dan beri logika klik
+        // 👇 PERBAIKAN: Menggunakan OnBackPressedDispatcher terbaru agar seirama dengan halaman lain
         btnBackJadwal = findViewById(R.id.btnBackJadwal);
         btnBackJadwal.setOnClickListener(v -> {
-            onBackPressed(); // Menutup halaman ini dan otomatis kembali ke Home
+            getOnBackPressedDispatcher().onBackPressed();
         });
 
         // Setup RecyclerView Vertikal biasa (LinearLayoutManager)
@@ -38,5 +42,31 @@ public class JadwalActivity extends AppCompatActivity {
         // Pasang ke adapter
         JadwalAdapter adapter = new JadwalAdapter(listData);
         rvJadwal.setAdapter(adapter);
+
+        // =======================================================
+        // TAMBAHAN: Logika Klik Foto Profil ke ProfilActivity
+        // =======================================================
+        androidx.cardview.widget.CardView btnProfilTop = findViewById(R.id.btnProfilTop);
+        if (btnProfilTop != null) {
+            btnProfilTop.setOnClickListener(v -> {
+                Intent intent = new Intent(JadwalActivity.this, ProfilActivity.class);
+                startActivity(intent);
+            });
+        }
+
+        // =======================================================
+        // TAMBAHAN DINAMIS: Ambil Foto Profil dari SharedPreferences
+        // =======================================================
+        ImageView imgProfilHeader = findViewById(R.id.imgProfilHeader);
+        if (imgProfilHeader != null) {
+            SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+            String fotoPath = sharedPref.getString("foto_profil_path", null);
+
+            if (fotoPath != null) {
+                imgProfilHeader.setImageURI(Uri.parse(fotoPath));
+            } else {
+                imgProfilHeader.setImageResource(android.R.drawable.sym_def_app_icon);
+            }
+        }
     }
 }

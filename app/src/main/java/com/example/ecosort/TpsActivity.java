@@ -1,11 +1,13 @@
 package com.example.ecosort;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity; // Import EdgeToEdge dihapus karena tidak dipakai lagi
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -14,8 +16,6 @@ public class TpsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        // BARIS EdgeToEdge.enable(this); DI SINI SUDAH DIHAPUS BIAR TIDAK FULLSCREEN NABRAK ATAS
 
         setContentView(R.layout.activity_tps);
 
@@ -60,5 +60,33 @@ public class TpsActivity extends AppCompatActivity {
         btnBackTps.setOnClickListener(v -> {
             getOnBackPressedDispatcher().onBackPressed();
         });
+
+        // =======================================================
+        // TAMBAHAN: Logika Klik Foto Profil ke ProfilActivity
+        // =======================================================
+        androidx.cardview.widget.CardView btnProfilTop = findViewById(R.id.btnProfilTop);
+        if (btnProfilTop != null) {
+            btnProfilTop.setOnClickListener(v -> {
+                Intent intent = new Intent(TpsActivity.this, ProfilActivity.class);
+                startActivity(intent);
+            });
+        }
+
+        // =======================================================
+        // TAMBAHAN DINAMIS: Ambil Foto Profil dari SharedPreferences
+        // =======================================================
+        ImageView imgProfilHeader = findViewById(R.id.imgProfilHeader);
+        if (imgProfilHeader != null) {
+            SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+            String fotoPath = sharedPref.getString("foto_profil_path", null);
+
+            if (fotoPath != null) {
+                // Jika user sudah ganti foto, pasang fotonya
+                imgProfilHeader.setImageURI(Uri.parse(fotoPath));
+            } else {
+                // Jika belum, pakai icon default sistem (atau ganti ke avatar lokal jika ada)
+                imgProfilHeader.setImageResource(android.R.drawable.sym_def_app_icon);
+            }
+        }
     }
 }
