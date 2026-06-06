@@ -1,168 +1,203 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.github.com/tools"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="#07140E"
     android:fitsSystemWindows="true">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingHorizontal="24dp"
-        android:paddingTop="24dp"
-        android:paddingBottom="16dp">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/btnBackMarketplace"
-            android:layout_width="32dp"
-            android:layout_height="32dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignTop="@id/txtJudulMarket"
-            android:layout_alignBottom="@id/txtJudulMarket"
-            android:clickable="true"
-            android:focusable="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@android:drawable/ic_menu_revert"
-            app:tint="#E2E8F0" />
-
-        <TextView
-            android:id="@+id/txtJudulMarket"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toEndOf="@id/btnBackMarketplace"
-            android:layout_toStartOf="@id/btnProfilTop"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:text="Eco Market"
-            android:textColor="#E2E8F0"
-            android:textSize="24sp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/txtJudulMarket"
-            android:layout_toEndOf="@id/btnBackMarketplace"
-            android:layout_toStartOf="@id/btnProfilTop"
-            android:layout_marginStart="12dp"
-            android:layout_marginEnd="12dp"
-            android:layout_marginTop="4dp"
-            android:text="Tukarkan sampahmu dengan poin menarik"
-            android:textColor="#64748B"
-            android:textSize="12sp" />
-
-        <androidx.cardview.widget.CardView
-            android:id="@+id/btnProfilTop"
-            android:layout_width="38dp"
-            android:layout_height="38dp"
-            android:layout_alignParentEnd="true"       android:layout_centerVertical="true"       android:clickable="true"                   android:focusable="true"                   android:foreground="?attr/selectableItemBackground" app:cardCornerRadius="19dp"
-            app:cardElevation="0dp">
+            android:paddingHorizontal="24dp"
+            android:paddingTop="24dp"
+            android:paddingBottom="16dp">
 
             <ImageView
-                android:id="@+id/imgProfilHeader"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:src="@android:drawable/sym_def_app_icon" />
-        </androidx.cardview.widget.CardView>
-
-    </RelativeLayout>
-
-    <androidx.cardview.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_height="46dp"
-        android:layout_marginHorizontal="24dp"
-        android:layout_marginBottom="16dp"
-        app:cardBackgroundColor="#12241A"
-        app:cardCornerRadius="23dp"
-        app:cardElevation="0dp">
-
-        <EditText
-            android:id="@+id/etCariBarang"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
-            android:hint="Cari barang (cth: Botol Plastik)..."
-            android:textColorHint="#475569"
-            android:textColor="#FFFFFF"
-            android:paddingHorizontal="20dp"
-            android:textSize="14sp"
-            android:inputType="text"
-            android:maxLines="1"
-            android:imeOptions="actionSearch" />
-    </androidx.cardview.widget.CardView>
-
-    <HorizontalScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="none"
-        android:paddingBottom="12dp">
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingHorizontal="24dp">
+                android:id="@+id/btnBackMarketplace"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignTop="@id/txtJudulMarket"
+                android:layout_alignBottom="@id/txtJudulMarket"
+                android:clickable="true"
+                android:focusable="true"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@android:drawable/ic_menu_revert"
+                app:tint="#E2E8F0" />
 
             <TextView
-                android:id="@+id/btnFilterSemua"
+                android:id="@+id/txtJudulMarket"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/bg_tab_active"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="8dp"
-                android:text="Semua"
-                android:textColor="#050F0B"
-                android:textSize="13sp"
+                android:layout_toEndOf="@id/btnBackMarketplace"
+                android:layout_toStartOf="@id/btnProfilTop"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:text="Eco Market"
+                android:textColor="#E2E8F0"
+                android:textSize="24sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/btnFilterOrganik"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/bg_tab_inactive"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="8dp"
-                android:text="Organik"
-                android:textColor="#475569"
-                android:textSize="13sp" />
+                android:layout_below="@id/txtJudulMarket"
+                android:layout_toEndOf="@id/btnBackMarketplace"
+                android:layout_toStartOf="@id/btnProfilTop"
+                android:layout_marginStart="12dp"
+                android:layout_marginEnd="12dp"
+                android:layout_marginTop="4dp"
+                android:text="Tukarkan sampahmu &amp; jual barang rongsok"
+                android:textColor="#64748B"
+                android:textSize="12sp" />
 
-            <TextView
-                android:id="@+id/btnFilterPlastik"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/btnProfilTop"
+                android:layout_width="38dp"
+                android:layout_height="38dp"
+                android:layout_alignParentEnd="true"
+                android:layout_centerVertical="true"
+                android:clickable="true"
+                android:focusable="true"
+                android:foreground="?attr/selectableItemBackground"
+                app:cardCornerRadius="19dp"
+                app:cardElevation="0dp">
+
+                <ImageView
+                    android:id="@+id/imgProfilHeader"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop"
+                    android:src="@android:drawable/sym_def_app_icon" />
+            </androidx.cardview.widget.CardView>
+
+        </RelativeLayout>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:layout_marginHorizontal="24dp"
+            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="#12241A"
+            app:cardCornerRadius="23dp"
+            app:cardElevation="0dp">
+
+            <EditText
+                android:id="@+id/etCariBarang"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@android:color/transparent"
+                android:hint="Cari barang (cth: Botol Plastik, Meja)..."
+                android:textColorHint="#475569"
+                android:textColor="#FFFFFF"
+                android:paddingHorizontal="20dp"
+                android:textSize="14sp"
+                android:inputType="text"
+                android:maxLines="1"
+                android:imeOptions="actionSearch" />
+        </androidx.cardview.widget.CardView>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="none"
+            android:paddingBottom="12dp">
+
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/bg_tab_inactive"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="8dp"
-                android:text="Plastik"
-                android:textColor="#475569"
-                android:textSize="13sp" />
+                android:orientation="horizontal"
+                android:paddingHorizontal="24dp">
 
-            <TextView
-                android:id="@+id/btnFilterLogam"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:background="@drawable/bg_tab_inactive"
-                android:paddingHorizontal="16dp"
-                android:paddingVertical="8dp"
-                android:text="Logam"
-                android:textColor="#475569"
-                android:textSize="13sp" />
-        </LinearLayout>
-    </HorizontalScrollView>
+                <TextView
+                    android:id="@+id/btnFilterSemua"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/bg_tab_active"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:text="Semua"
+                    android:textColor="#050F0B"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvMarketplace"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingHorizontal="16dp"
-        android:clipToPadding="false"
-        tools:listitem="@layout/itemproduct" />
+                <TextView
+                    android:id="@+id/btnFilterOrganik"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/bg_tab_inactive"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:text="Organik"
+                    android:textColor="#475569"
+                    android:textSize="13sp" />
 
-</LinearLayout>
+                <TextView
+                    android:id="@+id/btnFilterPlastik"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/bg_tab_inactive"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:text="Plastik"
+                    android:textColor="#475569"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/btnFilterLogam"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/bg_tab_inactive"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:text="Logam"
+                    android:textColor="#475569"
+                    android:textSize="13sp" />
+
+                <TextView
+                    android:id="@+id/btnFilterRongsok"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:background="@drawable/bg_tab_inactive"
+                    android:paddingHorizontal="16dp"
+                    android:paddingVertical="8dp"
+                    android:text="Rongsok (Rp)"
+                    android:textColor="#34D399"
+                    android:textSize="13sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvMarketplace"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingHorizontal="16dp"
+            android:clipToPadding="false"
+            android:paddingBottom="80dp"
+            tools:listitem="@layout/itemproduct" />
+    </LinearLayout>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabJualRongsok"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="24dp"
+        android:backgroundTint="#34D399"
+        android:contentDescription="Jual Barang"
+        android:src="@android:drawable/ic_input_add"
+        app:tint="#050F0B" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
