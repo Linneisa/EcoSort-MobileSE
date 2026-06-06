@@ -140,6 +140,16 @@
             </LinearLayout>
         </LinearLayout>
     </androidx.cardview.widget.CardView>
+    <Button
+        android:id="@+id/btnMenuAdmin"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:layout_margin="24dp"
+        android:backgroundTint="#34D399"
+        android:text="Buka Scanner Admin"
+        android:textColor="#050F0B"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/menuLogout"

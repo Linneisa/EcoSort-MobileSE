@@ -48,41 +48,27 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/btnUnggahFoto"
-                android:layout_width="match_parent"
-                android:layout_height="180dp"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:layout_marginBottom="24dp"
-                android:clickable="true"
-                android:focusable="true"
-                android:foreground="?attr/selectableItemBackground"
-                app:cardBackgroundColor="#12241A"
-                app:cardCornerRadius="16dp"
-                app:cardElevation="0dp">
+                android:text="Nama Anda"
+                android:textColor="#94A3B8"
+                android:textSize="12sp"
+                android:textStyle="bold" />
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center"
-                    android:orientation="vertical">
-
-                    <ImageView
-                        android:layout_width="48dp"
-                        android:layout_height="48dp"
-                        android:src="@android:drawable/ic_menu_camera"
-                        app:tint="#34D399" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:text="Ketuk untuk tambah foto"
-                        android:textColor="#94A3B8"
-                        android:textSize="14sp" />
-                </LinearLayout>
-            </androidx.cardview.widget.CardView>
+            <EditText
+                android:id="@+id/etNamaPengirim"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="16dp"
+                android:background="@drawable/bg_tab_inactive"
+                android:hint="cth: Christoffer Bintang"
+                android:paddingHorizontal="16dp"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#475569"
+                android:textSize="14sp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -100,28 +86,6 @@
                 android:layout_marginBottom="16dp"
                 android:background="@drawable/bg_tab_inactive"
                 android:hint="cth: Meja Belajar Patah, Besi Tua"
-                android:paddingHorizontal="16dp"
-                android:textColor="#FFFFFF"
-                android:textColorHint="#475569"
-                android:textSize="14sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Harga (Rp)"
-                android:textColor="#94A3B8"
-                android:textSize="12sp"
-                android:textStyle="bold" />
-
-            <EditText
-                android:id="@+id/etHargaBarang"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="16dp"
-                android:background="@drawable/bg_tab_inactive"
-                android:hint="cth: 45000"
-                android:inputType="number"
                 android:paddingHorizontal="16dp"
                 android:textColor="#FFFFFF"
                 android:textColorHint="#475569"
@@ -158,7 +122,7 @@
         android:layout_marginHorizontal="24dp"
         android:layout_marginBottom="24dp"
         android:backgroundTint="#34D399"
-        android:text="Jual Sekarang"
+        android:text="Ajukan &amp; Mulai Chat Admin"
         android:textColor="#050F0B"
         android:textSize="16sp"
         android:textStyle="bold" />

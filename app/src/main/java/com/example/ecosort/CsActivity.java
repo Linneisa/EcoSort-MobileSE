@@ -27,11 +27,10 @@ public class CsActivity extends AppCompatActivity {
             btnBackCS.setOnClickListener(v -> finish());
         }
 
-        // Aksi Kirim Pesan ke WhatsApp (Baru terbuka saat tombol di dalam halaman CS ini ditekan)
         if (btnHubungiWA != null) {
             btnHubungiWA.setOnClickListener(v -> {
                 try {
-                    String nomorCS = "6281234567890"; // Ganti ke nomor WA admin aslimu
+                    String nomorCS = "6281273103919";
                     String url = "https://api.whatsapp.com/send?phone=" + nomorCS + "&text=Halo%20Admin%20EcoSort,%20saya%20butuh%20bantuan.";
                     Intent intentWA = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
                     startActivity(intentWA);

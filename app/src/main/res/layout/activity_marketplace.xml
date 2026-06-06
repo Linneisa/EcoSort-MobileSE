@@ -163,7 +163,6 @@
                     android:text="Logam"
                     android:textColor="#475569"
                     android:textSize="13sp" />
-
                 <TextView
                     android:id="@+id/btnFilterRongsok"
                     android:layout_width="wrap_content"
@@ -176,6 +175,7 @@
                     android:textColor="#34D399"
                     android:textSize="13sp"
                     android:textStyle="bold" />
+
             </LinearLayout>
         </HorizontalScrollView>
 
@@ -189,15 +189,17 @@
             tools:listitem="@layout/itemproduct" />
     </LinearLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
         android:id="@+id/fabJualRongsok"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="24dp"
         android:backgroundTint="#34D399"
-        android:contentDescription="Jual Barang"
-        android:src="@android:drawable/ic_input_add"
-        app:tint="#050F0B" />
+        android:text="Jual Barang"
+        android:textColor="#050F0B"
+        android:textStyle="bold"
+        app:icon="@android:drawable/ic_input_add"
+        app:iconTint="#050F0B" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

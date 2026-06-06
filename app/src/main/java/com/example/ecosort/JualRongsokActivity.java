@@ -1,13 +1,10 @@
 package com.example.ecosort;
 
 import android.os.Bundle;
-import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 
 public class JualRongsokActivity extends AppCompatActivity {
 
@@ -16,47 +13,41 @@ public class JualRongsokActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_jual_rongsok);
 
-        ImageView btnBack = findViewById(R.id.btnBackJual);
-        btnBack.setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
+        // Tombol Kembali
+        findViewById(R.id.btnBackJual).setOnClickListener(v -> getOnBackPressedDispatcher().onBackPressed());
 
-        androidx.cardview.widget.CardView btnUnggahFoto = findViewById(R.id.btnUnggahFoto);
-        btnUnggahFoto.setOnClickListener(v -> {
-            Toast.makeText(JualRongsokActivity.this, "Membuka Galeri Kamera...", Toast.LENGTH_SHORT).show();
-        });
-
-        // Ubah teks tombol menjadi lebih relevan
+        // Inisialisasi Input dan Tombol
         Button btnSimpan = findViewById(R.id.btnSimpanJualan);
-        btnSimpan.setText("Ajukan & Mulai Chat Admin");
-
-        EditText etNama = findViewById(R.id.etNamaBarang);
+        EditText etNamaPengirim = findViewById(R.id.etNamaPengirim);
+        EditText etNamaBarang = findViewById(R.id.etNamaBarang);
         EditText etLokasi = findViewById(R.id.etLokasiBarang);
 
         btnSimpan.setOnClickListener(v -> {
-            String nama = etNama.getText().toString();
-            String lokasi = etLokasi.getText().toString();
+            String pengirim = etNamaPengirim.getText().toString().trim();
+            String barang = etNamaBarang.getText().toString().trim();
+            String lokasi = etLokasi.getText().toString().trim();
 
-            // Validasi hanya nama dan lokasi
-            if (nama.isEmpty() || lokasi.isEmpty()) {
-                Toast.makeText(JualRongsokActivity.this, "Mohon isi nama barang dan lokasi penjemputan!", Toast.LENGTH_SHORT).show();
+            if (pengirim.isEmpty() || barang.isEmpty() || lokasi.isEmpty()) {
+                Toast.makeText(JualRongsokActivity.this, "Mohon lengkapi semua data!", Toast.LENGTH_SHORT).show();
             } else {
-                // 1. Tentukan nomor WhatsApp Admin (Gunakan kodifikasi negara 62 tanpa angka 0 di depan)
-                // Ganti dengan nomor aslimu agar saat demo presentasi, chat-nya masuk ke HP-mu sendiri
-                String nomorAdmin = "6281273103919";
+                // 1. Tentukan nomor WhatsApp tujuan
+                // PENTING: Ganti dengan nomormu sendiri (gunakan 62, tanpa 0 di depan)
+                String nomorAdmin = "6281234567890";
 
-                // 2. Rangkai pesan otomatis yang akan dikirim
-                String pesan = "Halo Admin EcoSort, saya ingin menjual barang rongsok.\n\n" +
-                        "📦 Nama Barang: " + nama + "\n" +
-                        "📍 Lokasi: " + lokasi + "\n\n" +
-                        "Apakah bisa dilakukan penjemputan ke lokasi saya di Bandung? Kira-kira bagaimana estimasi harganya?";
+                // 2. Rangkai pesan otomatis
+                String pesan = "Halo Admin EcoSort, saya *" + pengirim + "* ingin bernegosiasi untuk menjual rongsokan.\n\n" +
+                        "📦 *Nama Barang:* " + barang + "\n" +
+                        "📍 *Lokasi Jemput:* " + lokasi + "\n\n" +
+                        "_(Foto barang akan saya kirimkan di sini)._\n\n" +
+                        "Apakah tim penjemput bisa datang ke lokasi saya?";
 
-                // 3. Buat Intent untuk melompat ke WhatsApp
+                // 3. Eksekusi Intent ke WhatsApp
                 android.content.Intent intent = new android.content.Intent(android.content.Intent.ACTION_VIEW);
                 intent.setData(android.net.Uri.parse("https://api.whatsapp.com/send?phone=" + nomorAdmin + "&text=" + android.net.Uri.encode(pesan)));
 
-                // 4. Jalankan Intent dengan Try-Catch berjaga-jaga jika HP belum pasang WhatsApp
                 try {
                     startActivity(intent);
-                    finish(); // Menutup layar formulir setelah melompat ke WA
+                    finish(); // Menutup formulir setelah membuka WA
                 } catch (Exception e) {
                     Toast.makeText(JualRongsokActivity.this, "Gagal membuka WhatsApp. Pastikan aplikasi terinstal.", Toast.LENGTH_LONG).show();
                 }

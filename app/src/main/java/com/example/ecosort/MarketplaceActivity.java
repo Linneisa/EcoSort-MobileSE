@@ -15,6 +15,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +28,7 @@ public class MarketplaceActivity extends AppCompatActivity {
     private RecyclerView rvMarketplace;
     private List<Produk> semuaProdukList;
     private ImageView btnBackMarketplace;
-    private FloatingActionButton fabJualRongsok;
+    private ExtendedFloatingActionButton fabJualRongsok;
 
     private String kategoriSaatIni = "Semua";
 
@@ -45,16 +47,18 @@ public class MarketplaceActivity extends AppCompatActivity {
         btnRongsok = findViewById(R.id.btnFilterRongsok); // Inisialisasi Tab Rongsok
         etCariBarang = findViewById(R.id.etCariBarang);
         fabJualRongsok = findViewById(R.id.fabJualRongsok);
+
         // Aksi Tombol Melayang (+) Untuk Membuka Formulir
         fabJualRongsok.setOnClickListener(v -> {
-            Intent intent = new Intent(MarketplaceActivity.this, JualRongsokActivity.class);
+            android.content.Intent intent = new android.content.Intent(MarketplaceActivity.this, JualRongsokActivity.class);
             startActivity(intent);
         });
 
+        // 👇 INI YANG SEMPAT TERHAPUS: Memanggil mesin layout Grid (2 Kolom)
         rvMarketplace = findViewById(R.id.rvMarketplace);
         rvMarketplace.setLayoutManager(new GridLayoutManager(this, 2));
 
-        // Pengisian Data (Termasuk Barang Rongsokan Baru)
+        // Pengisian Data
         semuaProdukList = new ArrayList<>();
         // Data Lama (Poin)
         semuaProdukList.add(new Produk("Botol Plastik PET", "500 pts", "/1 kg", "Plastik", R.drawable.img_botol));
@@ -85,7 +89,6 @@ public class MarketplaceActivity extends AppCompatActivity {
         btnPlastik.setOnClickListener(v -> ubahKategori(btnPlastik, "Plastik"));
         btnLogam.setOnClickListener(v -> ubahKategori(btnLogam, "Logam"));
         btnRongsok.setOnClickListener(v -> ubahKategori(btnRongsok, "Rongsok"));
-
 
 
         // Setup Profil Top

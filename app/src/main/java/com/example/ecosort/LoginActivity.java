@@ -1,6 +1,8 @@
 package com.example.ecosort;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
             });
         }
 
-        // 2. Logika Klik untuk tombol Masuk
+        // 2. Logika Klik untuk tombol Masuk (DITAMBAH SENSOR ADMIN)
         btnLogin.setOnClickListener(v -> {
             String email = etEmail.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
@@ -42,8 +44,24 @@ public class LoginActivity extends AppCompatActivity {
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(LoginActivity.this, "Email dan password wajib diisi!", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(LoginActivity.this, "Login Sukses!", Toast.LENGTH_SHORT).show();
-                // Pastikan kamu punya MainActivity atau DashboardActivity untuk tujuan login ini
+
+                // --- MEMBUKA MEMORI SESI (SharedPreferences) ---
+                SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPref.edit();
+
+                // Cek apakah yang login adalah Admin Ecosort
+                if (email.equals("admin@ecosort.com") && password.equals("admin123")) {
+                    editor.putString("ROLE", "Admin");
+                    editor.apply();
+                    Toast.makeText(LoginActivity.this, "Selamat datang di Panel Admin!", Toast.LENGTH_SHORT).show();
+                } else {
+                    // Jika user biasa
+                    editor.putString("ROLE", "User");
+                    editor.apply();
+                    Toast.makeText(LoginActivity.this, "Login Sukses!", Toast.LENGTH_SHORT).show();
+                }
+
+                // Tetap mengarah ke MainActivity sesuai alur aslimu
                 Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
