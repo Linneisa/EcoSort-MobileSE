@@ -15,28 +15,36 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // --- PROTEKSI SESI ---
+        // Cek apakah sudah pernah login sebelumnya
+        SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        if (sharedPref.contains("ROLE")) {
+            // Kalau sudah ada data, langsung lempar ke MainActivity
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
+            return; // Hentikan agar tidak load layout login
+        }
+
         setContentView(R.layout.activity_login);
 
-        // Menyembunyikan ActionBar bawaan biar fullscreen kustom
         if (getSupportActionBar() != null) {
             getSupportActionBar().hide();
         }
 
-        // Inisialisasi komponen XML
         TextInputEditText etEmail = findViewById(R.id.etEmail);
         TextInputEditText etPassword = findViewById(R.id.etPassword);
         MaterialButton btnLogin = findViewById(R.id.btnLogin);
         TextView tvGoToRegister = findViewById(R.id.tvGoToRegister);
 
-        // 1. Logika Klik untuk pindah ke halaman Register
+        // 1. Pindah ke Register
         if (tvGoToRegister != null) {
             tvGoToRegister.setOnClickListener(v -> {
-                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(LoginActivity.this, RegisterActivity.class));
             });
         }
 
-        // 2. Logika Klik untuk tombol Masuk (DITAMBAH SENSOR ADMIN)
+        // 2. Logika Tombol Masuk
         btnLogin.setOnClickListener(v -> {
             String email = etEmail.getText().toString().trim();
             String password = etPassword.getText().toString().trim();
@@ -44,27 +52,27 @@ public class LoginActivity extends AppCompatActivity {
             if (email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(LoginActivity.this, "Email dan password wajib diisi!", Toast.LENGTH_SHORT).show();
             } else {
-
-                // --- MEMBUKA MEMORI SESI (SharedPreferences) ---
-                SharedPreferences sharedPref = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
                 SharedPreferences.Editor editor = sharedPref.edit();
 
-                // Cek apakah yang login adalah Admin Ecosort
                 if (email.equals("admin@ecosort.com") && password.equals("admin123")) {
                     editor.putString("ROLE", "Admin");
-                    editor.apply();
-                    Toast.makeText(LoginActivity.this, "Selamat datang di Panel Admin!", Toast.LENGTH_SHORT).show();
                 } else {
-                    // Jika user biasa
                     editor.putString("ROLE", "User");
-                    editor.apply();
-                    Toast.makeText(LoginActivity.this, "Login Sukses!", Toast.LENGTH_SHORT).show();
                 }
 
-                // Tetap mengarah ke MainActivity sesuai alur aslimu
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
-                finish();
+                // Tambahkan email agar bisa dipakai di profil
+                editor.putString("email", email);
+
+                // GUNAKAN COMMIT agar sinkron dan langsung tersimpan
+                boolean isSaved = editor.commit();
+
+                if (isSaved) {
+                    Toast.makeText(LoginActivity.this, "Login Sukses!", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                    finish();
+                } else {
+                    Toast.makeText(LoginActivity.this, "Gagal menyimpan sesi!", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
