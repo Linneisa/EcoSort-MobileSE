@@ -65,35 +65,39 @@ public class ProfilActivity extends AppCompatActivity {
         TextView tvNama = findViewById(R.id.tvNamaProfil);
         TextView tvEmail = findViewById(R.id.tvEmailProfil);
         ImageView ivFoto = findViewById(R.id.ivFotoProfilHeader);
-        View btnMenuAdmin = findViewById(R.id.btnMenuAdmin);
+        View layoutTombolAdmin = findViewById(R.id.layoutTombolAdmin);
 
         // Ambil role pengguna saat ini
         String rolePengguna = prefs.getString("ROLE", "User");
 
         if (rolePengguna.equals("Admin")) {
-            // ==========================================
-            // 🛡️ TAMPILAN KHUSUS ADMIN
-            // ==========================================
+            // TAMPILAN KHUSUS ADMIN
             tvNama.setText("Admin EcoSort");
             tvEmail.setText("admin@ecosort.com");
 
-            // Ganti foto profil bawaan menjadi ikon gembok/admin
             if (ivFoto != null) {
                 ivFoto.setImageResource(android.R.drawable.ic_secure);
             }
 
-            // Munculkan tombol Scanner Admin
-            if (btnMenuAdmin != null) {
-                btnMenuAdmin.setVisibility(View.VISIBLE);
-                btnMenuAdmin.setOnClickListener(v -> {
-                    startActivity(new Intent(ProfilActivity.this, AdminScanActivity.class));
-                });
+            // Munculkan grup tombol admin
+            if (layoutTombolAdmin != null) {
+                layoutTombolAdmin.setVisibility(View.VISIBLE);
+
+                View btnMenuAdmin = findViewById(R.id.btnMenuAdmin);
+                if (btnMenuAdmin != null) {
+                    btnMenuAdmin.setOnClickListener(v ->
+                            startActivity(new Intent(ProfilActivity.this, AdminScanActivity.class)));
+                }
+
+                View btnMenuRongsok = findViewById(R.id.btnMenuRongsok);
+                if (btnMenuRongsok != null) {
+                    btnMenuRongsok.setOnClickListener(v ->
+                            startActivity(new Intent(ProfilActivity.this, AdminRongsokanActivity.class)));
+                }
             }
 
         } else {
-            // ==========================================
-            // 👤 TAMPILAN USER BIASA
-            // ==========================================
+            // TAMPILAN USER BIASA
             tvNama.setText(prefs.getString("nama", "Pengguna EcoSort"));
             tvEmail.setText(prefs.getString("email", "-"));
 
@@ -129,9 +133,9 @@ public class ProfilActivity extends AppCompatActivity {
                 ivFoto.setImageResource(android.R.drawable.sym_def_app_icon);
             }
 
-            // Sembunyikan tombol Scanner Admin
-            if (btnMenuAdmin != null) {
-                btnMenuAdmin.setVisibility(View.GONE);
+            // Sembunyikan grup tombol admin
+            if (layoutTombolAdmin != null) {
+                layoutTombolAdmin.setVisibility(View.GONE);
             }
         }
     }
