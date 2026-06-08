@@ -136,11 +136,12 @@
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Estimasi Poin"
+                    android:text="Poin Didapat"
                     android:textColor="#64748B" />
                 <TextView
                     android:id="@+id/txtTiketPoin"
@@ -150,6 +151,32 @@
                     android:text="0 pts"
                     android:textColor="#34D399"
                     android:textSize="16sp"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_marginBottom="10dp"
+                android:background="#1E293B" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total Poin Kamu"
+                    android:textColor="#A7F3D0"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/txtTotalPoinUser"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:text="0 pts"
+                    android:textColor="#FFFFFF"
+                    android:textSize="18sp"
                     android:textStyle="bold" />
             </RelativeLayout>
 

@@ -59,5 +59,17 @@
             android:text="Stok: 12"
             android:textColor="#64748B"
             android:textSize="11sp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnTukar"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginTop="10dp"
+            android:text="Tukar"
+            android:textColor="#050F0B"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:backgroundTint="#34D399"
+            app:cornerRadius="8dp" />
     </LinearLayout>
 </androidx.cardview.widget.CardView>

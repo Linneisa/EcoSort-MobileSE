@@ -1,4 +1,19 @@
 # Add project specific ProGuard rules here.
+
+# Retrofit
+-keepattributes Signature
+-keepattributes Exceptions
+-keep class retrofit2.** { *; }
+-keepclasseswithmembers class * {
+    @retrofit2.http.* <methods>;
+}
+
+# OkHttp
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+
+# Gson model classes (jangan di-obfuscate agar @SerializedName tetap bekerja)
+-keep class com.example.ecosort.model.** { *; }
 # You can control the set of applied configuration files using the
 # proguardFiles setting in build.gradle.
 #

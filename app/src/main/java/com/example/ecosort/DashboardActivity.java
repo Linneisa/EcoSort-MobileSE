@@ -11,11 +11,14 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class DashboardActivity extends AppCompatActivity {
 
     private ImageView ivFotoProfilHome;
     private TextView tvSelamatPagi;
+    private TextView tvTotalPoin;
     private CardView menuPeta, menuJadwal, menuMarketplace, menuReward;
     private CardView kartuPoin;
     private BottomNavigationView bottomNavigation;
@@ -27,8 +30,9 @@ public class DashboardActivity extends AppCompatActivity {
 
         // 1. Inisialisasi View
         ivFotoProfilHome = findViewById(R.id.ivFotoProfilHome);
-        tvSelamatPagi = findViewById(R.id.tvSelamatPagi);
-        kartuPoin = findViewById(R.id.kartuPoin);
+        tvSelamatPagi    = findViewById(R.id.tvSelamatPagi);
+        tvTotalPoin      = findViewById(R.id.tvTotalPoin);
+        kartuPoin        = findViewById(R.id.kartuPoin);
         menuPeta = findViewById(R.id.menuPeta);
         menuJadwal = findViewById(R.id.menuJadwal);
         menuMarketplace = findViewById(R.id.menuMarketplace);
@@ -156,6 +160,19 @@ public class DashboardActivity extends AppCompatActivity {
             tvSelamatPagi.setText("Selamat pagi, " + namaUser + " 👋");
         }
 
+        // Tampilkan poin dari cache dulu, lalu refresh dari Supabase
+        if (tvTotalPoin != null) {
+            tvTotalPoin.setText(formatPoin(UserPointsHelper.getCachedPoin(this)));
+            UserPointsHelper.fetchPoin(this, new UserPointsHelper.PoinCallback() {
+                @Override
+                public void onSuccess(int totalPoin) {
+                    tvTotalPoin.setText(formatPoin(totalPoin));
+                }
+                @Override
+                public void onFailure(String pesan) { /* tampilkan cache */ }
+            });
+        }
+
         String uriString = prefs.getString("foto_uri", null);
         if (uriString != null && ivFotoProfilHome != null) {
             try {
@@ -166,5 +183,9 @@ public class DashboardActivity extends AppCompatActivity {
         } else if (ivFotoProfilHome != null) {
             ivFotoProfilHome.setImageResource(android.R.drawable.sym_def_app_icon);
         }
+    }
+
+    private String formatPoin(int poin) {
+        return NumberFormat.getNumberInstance(new Locale("in", "ID")).format(poin);
     }
 }

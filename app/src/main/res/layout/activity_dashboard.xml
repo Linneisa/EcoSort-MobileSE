@@ -104,10 +104,11 @@
                         android:orientation="horizontal">
 
                         <TextView
+                            android:id="@+id/tvTotalPoin"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:includeFontPadding="false"
-                            android:text="2.450"
+                            android:text="0"
                             android:textColor="#FFFFFF"
                             android:textSize="42sp"
                             android:textStyle="bold" />

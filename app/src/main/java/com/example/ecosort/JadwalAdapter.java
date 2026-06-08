@@ -16,6 +16,11 @@ public class JadwalAdapter extends RecyclerView.Adapter<JadwalAdapter.JadwalView
         this.listJadwal = listJadwal;
     }
 
+    public void setData(List<Jadwal> data) {
+        this.listJadwal = data;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public JadwalViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
