@@ -96,15 +96,10 @@ public class TpsActivity extends AppCompatActivity {
     }
 
     private void loadLokasiTps() {
-        SharedPreferences prefs = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
-        String token = prefs.getString("auth_access_token", "");
-        String bearerToken = token.isEmpty() ? null : "Bearer " + token;
-
-        Log.d("TPS_DEBUG", "loadLokasiTps() dipanggil. Token: "
-                + (token.isEmpty() ? "KOSONG → pakai anon key" : "ADA (" + token.length() + " karakter)"));
+        Log.d("TPS_DEBUG", "loadLokasiTps() dipanggil — menggunakan anon key (data publik)");
 
         SupabaseClient.getApiService()
-                .getLokasiTps(bearerToken, "eq.true", "*")
+                .getLokasiTps("eq.true", "*")
                 .enqueue(new Callback<List<LokasiTpsModel>>() {
                     @Override
                     public void onResponse(Call<List<LokasiTpsModel>> call,
