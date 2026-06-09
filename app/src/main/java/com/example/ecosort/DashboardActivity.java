@@ -10,15 +10,24 @@ import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import com.example.ecosort.model.TransaksiSampahModel;
+import com.example.ecosort.network.SupabaseClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class DashboardActivity extends AppCompatActivity {
 
     private ImageView ivFotoProfilHome;
     private TextView tvSelamatPagi;
     private TextView tvTotalPoin;
+    private TextView tvPoinMingguIni;
     private CardView menuPeta, menuJadwal, menuMarketplace, menuReward;
     private CardView kartuPoin;
     private BottomNavigationView bottomNavigation;
@@ -32,6 +41,7 @@ public class DashboardActivity extends AppCompatActivity {
         ivFotoProfilHome = findViewById(R.id.ivFotoProfilHome);
         tvSelamatPagi    = findViewById(R.id.tvSelamatPagi);
         tvTotalPoin      = findViewById(R.id.tvTotalPoin);
+        tvPoinMingguIni  = findViewById(R.id.tvPoinMingguIni);
         kartuPoin        = findViewById(R.id.kartuPoin);
         menuPeta = findViewById(R.id.menuPeta);
         menuJadwal = findViewById(R.id.menuJadwal);
@@ -157,7 +167,18 @@ public class DashboardActivity extends AppCompatActivity {
 
         String namaUser = prefs.getString("nama", "Bintang");
         if (tvSelamatPagi != null) {
-            tvSelamatPagi.setText("Selamat pagi, " + namaUser + " 👋");
+            int jam = Calendar.getInstance().get(Calendar.HOUR_OF_DAY);
+            String sapaan;
+            if (jam < 12) {
+                sapaan = "Selamat pagi 👋";
+            } else if (jam < 15) {
+                sapaan = "Selamat siang ☀️";
+            } else if (jam < 18) {
+                sapaan = "Selamat sore 🌤️";
+            } else {
+                sapaan = "Selamat malam 🌙";
+            }
+            tvSelamatPagi.setText(sapaan + ", " + namaUser);
         }
 
         // Tampilkan poin dari cache dulu, lalu refresh dari Supabase
@@ -173,6 +194,8 @@ public class DashboardActivity extends AppCompatActivity {
             });
         }
 
+        loadPoinMingguIni();
+
         String uriString = prefs.getString("foto_uri", null);
         if (uriString != null && ivFotoProfilHome != null) {
             try {
@@ -183,6 +206,47 @@ public class DashboardActivity extends AppCompatActivity {
         } else if (ivFotoProfilHome != null) {
             ivFotoProfilHome.setImageResource(android.R.drawable.sym_def_app_icon);
         }
+    }
+
+    private void loadPoinMingguIni() {
+        if (tvPoinMingguIni == null) return;
+        SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String userId      = prefs.getString("user_id", "");
+        String accessToken = prefs.getString("auth_access_token", "");
+        if (userId.isEmpty() || accessToken.isEmpty()) return;
+
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.DAY_OF_YEAR, -7);
+        String tanggalMin = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(cal.getTime());
+
+        SupabaseClient.getApiService()
+                .getTransaksiByUserSince(
+                        "Bearer " + accessToken,
+                        "eq." + userId,
+                        "gte." + tanggalMin,
+                        "poin_didapat")
+                .enqueue(new Callback<List<TransaksiSampahModel>>() {
+                    @Override
+                    public void onResponse(Call<List<TransaksiSampahModel>> call,
+                                           Response<List<TransaksiSampahModel>> response) {
+                        if (!response.isSuccessful() || response.body() == null) return;
+                        int total = 0;
+                        for (TransaksiSampahModel t : response.body()) {
+                            total += t.getPoinDidapat();
+                        }
+                        final int totalPoin = total;
+                        runOnUiThread(() -> {
+                            if (tvPoinMingguIni == null) return;
+                            if (totalPoin == 0) {
+                                tvPoinMingguIni.setText("Belum ada transaksi minggu ini");
+                            } else {
+                                tvPoinMingguIni.setText("+" + totalPoin + " poin minggu ini");
+                            }
+                        });
+                    }
+                    @Override
+                    public void onFailure(Call<List<TransaksiSampahModel>> call, Throwable t) { }
+                });
     }
 
     private String formatPoin(int poin) {

@@ -11,14 +11,14 @@
     android:gravity="center"
     android:layout_gravity="center_vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <ImageView
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:text="EcoSort"
-        android:textSize="44sp"
-        android:textStyle="bold"
-        android:textColor="#34D399" android:layout_marginBottom="6dp"
-        android:letterSpacing="0.03" />
+        android:src="@drawable/logo_ecosort"
+        android:adjustViewBounds="true"
+        android:layout_gravity="center"
+        android:layout_marginBottom="6dp"
+        android:contentDescription="EcoSort Logo" />
 
     <TextView
         android:layout_width="wrap_content"

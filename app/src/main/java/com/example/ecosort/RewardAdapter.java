@@ -52,7 +52,7 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.RewardView
         holder.txtNama.setText(reward.getNama() != null ? reward.getNama() : "-");
         holder.txtPoin.setText(formatPoin(reward.getHargaPoin()));
         holder.txtStok.setText("Stok: " + reward.getStok());
-        holder.imgReward.setImageResource(resolveDrawable(reward.getKategori()));
+        holder.imgReward.setImageResource(resolveDrawable(reward.getKategori(), reward.getNama()));
 
         boolean habis = reward.getStok() <= 0;
         holder.btnTukar.setEnabled(!habis);
@@ -79,7 +79,7 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.RewardView
         return poin + " pts";
     }
 
-    private int resolveDrawable(String kategori) {
+    private int resolveDrawable(String kategori, String nama) {
         if (kategori == null) return R.drawable.img_voucher;
         switch (kategori.toLowerCase().trim()) {
             case "ewallet":
@@ -90,8 +90,15 @@ public class RewardAdapter extends RecyclerView.Adapter<RewardAdapter.RewardView
                 return R.drawable.img_voucher;
             case "pulsa":
                 return R.drawable.img_pulsa;
+            case "listrik":
             case "token":
                 return R.drawable.img_token;
+            case "barang": {
+                String namaLower = (nama != null) ? nama.toLowerCase() : "";
+                if (namaLower.contains("tumbler"))    return R.drawable.img_tumbler;
+                if (namaLower.contains("alat makan")) return R.drawable.img_alatmakan;
+                return R.drawable.img_voucher;
+            }
             case "tumbler":
             case "merchandise":
                 return R.drawable.img_tumbler;

@@ -70,11 +70,10 @@
                 app:cardElevation="0dp"
                 app:cardBackgroundColor="#0B1C14">
 
-                <ImageView
+                <org.osmdroid.views.MapView
+                    android:id="@+id/mapView"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:src="@drawable/img_maps"
-                    android:scaleType="centerCrop" />
+                    android:layout_height="match_parent" />
 
             </androidx.cardview.widget.CardView>
 
