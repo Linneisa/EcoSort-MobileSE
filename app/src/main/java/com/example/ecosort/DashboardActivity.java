@@ -224,7 +224,7 @@ public class DashboardActivity extends AppCompatActivity {
                         "Bearer " + accessToken,
                         "eq." + userId,
                         "gte." + tanggalMin,
-                        "poin_didapat")
+                        "poin_didapat,status")
                 .enqueue(new Callback<List<TransaksiSampahModel>>() {
                     @Override
                     public void onResponse(Call<List<TransaksiSampahModel>> call,
@@ -232,7 +232,11 @@ public class DashboardActivity extends AppCompatActivity {
                         if (!response.isSuccessful() || response.body() == null) return;
                         int total = 0;
                         for (TransaksiSampahModel t : response.body()) {
-                            total += t.getPoinDidapat();
+                            // Hanya hitung transaksi yang sudah diverifikasi (bukan pending/dibatalkan)
+                            String s = t.getStatus();
+                            if (!"menunggu".equals(s) && !"dibatalkan".equals(s)) {
+                                total += t.getPoinDidapat();
+                            }
                         }
                         final int totalPoin = total;
                         runOnUiThread(() -> {

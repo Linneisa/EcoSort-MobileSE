@@ -103,7 +103,11 @@ public class RewardActivity extends AppCompatActivity implements RewardAdapter.O
             return;
         }
 
-        // Dialog konfirmasi penukaran
+        if (reward.getStok() <= 0) {
+            Toast.makeText(this, "Stok reward sudah habis.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
         new AlertDialog.Builder(this)
                 .setTitle("Konfirmasi Penukaran")
                 .setMessage("Tukar \"" + reward.getNama() + "\" dengan "
@@ -115,31 +119,27 @@ public class RewardActivity extends AppCompatActivity implements RewardAdapter.O
     }
 
     private void prosesTukar(RewardModel reward, int position) {
-        PenukaranRequest penukaranReq = new PenukaranRequest(
-                userId, reward.getId(), reward.getHargaPoin());
-
-        // Langkah 1: catat transaksi penukaran
-        SupabaseClient.getApiService()
-                .insertPenukaran(bearerToken, penukaranReq)
-                .enqueue(new Callback<Void>() {
+        // Langkah 1: validasi poin dari server (bukan cache), lalu kurangi jika cukup
+        UserPointsHelper.kurangiPoinValidated(this, reward.getHargaPoin(),
+                new UserPointsHelper.PoinCallback() {
 
                     @Override
-                    public void onResponse(Call<Void> call, Response<Void> response) {
-                        if (response.isSuccessful()) {
-                            // Langkah 2: kurangi stok
-                            int stokBaru = reward.getStok() - 1;
-                            kurangiStok(reward, position, stokBaru);
-                        } else {
-                            Toast.makeText(RewardActivity.this,
-                                    "Penukaran gagal (kode " + response.code() + ")",
-                                    Toast.LENGTH_SHORT).show();
-                        }
+                    public void onSuccess(int newTotalPoin) {
+                        // Poin berhasil dikurangi → Langkah 2: kurangi stok
+                        int stokBaru = reward.getStok() - 1;
+                        kurangiStok(reward, position, stokBaru);
                     }
 
                     @Override
-                    public void onFailure(Call<Void> call, Throwable t) {
-                        Toast.makeText(RewardActivity.this,
-                                "Tidak dapat terhubung ke server.", Toast.LENGTH_SHORT).show();
+                    public void onFailure(String pesan) {
+                        if ("INSUFFICIENT".equals(pesan)) {
+                            Toast.makeText(RewardActivity.this,
+                                    "Poin kamu tidak cukup", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(RewardActivity.this,
+                                    "Gagal memproses penukaran: " + pesan,
+                                    Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
     }
@@ -154,21 +154,13 @@ public class RewardActivity extends AppCompatActivity implements RewardAdapter.O
                     @Override
                     public void onResponse(Call<Void> call, Response<Void> response) {
                         if (response.isSuccessful()) {
-                            // Update stok UI lokal
                             adapter.updateStokAtPosition(position, stokBaru);
-                            // Kurangi poin user
-                            UserPointsHelper.kurangiPoin(
-                                    RewardActivity.this,
-                                    reward.getHargaPoin(),
-                                    null // tidak perlu callback di sini
-                            );
-                            Toast.makeText(RewardActivity.this,
-                                    "Penukaran berhasil! Stok tersisa: " + stokBaru,
-                                    Toast.LENGTH_SHORT).show();
+                            // Langkah 3: catat riwayat penukaran
+                            catatPenukaran(reward, stokBaru);
                         } else {
-                            // Transaksi sudah tercatat, tapi stok gagal dikurangi — tetap beri tahu user
+                            // Poin sudah dikurangi — beri tahu user agar hubungi admin
                             Toast.makeText(RewardActivity.this,
-                                    "Penukaran tercatat, stok belum terupdate.",
+                                    "Poin sudah dikurangi, stok belum terupdate. Hubungi admin.",
                                     Toast.LENGTH_LONG).show();
                         }
                     }
@@ -176,7 +168,37 @@ public class RewardActivity extends AppCompatActivity implements RewardAdapter.O
                     @Override
                     public void onFailure(Call<Void> call, Throwable t) {
                         Toast.makeText(RewardActivity.this,
-                                "Penukaran tercatat, namun gagal update stok.",
+                                "Poin sudah dikurangi, namun gagal update stok. Hubungi admin.",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+    }
+
+    private void catatPenukaran(RewardModel reward, int stokBaru) {
+        PenukaranRequest penukaranReq = new PenukaranRequest(
+                userId, reward.getId(), reward.getHargaPoin());
+
+        SupabaseClient.getApiService()
+                .insertPenukaran(bearerToken, penukaranReq)
+                .enqueue(new Callback<Void>() {
+
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(RewardActivity.this,
+                                    "Penukaran berhasil! Stok tersisa: " + stokBaru,
+                                    Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(RewardActivity.this,
+                                    "Penukaran berhasil, riwayat gagal dicatat.",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(RewardActivity.this,
+                                "Penukaran berhasil, riwayat gagal dicatat.",
                                 Toast.LENGTH_LONG).show();
                     }
                 });

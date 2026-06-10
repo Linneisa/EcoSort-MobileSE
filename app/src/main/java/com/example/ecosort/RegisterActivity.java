@@ -91,6 +91,8 @@ public class RegisterActivity extends AppCompatActivity {
             com.example.ecosort.model.AuthResponse auth, String nama, String email) {
         android.content.SharedPreferences.Editor ed =
                 getSharedPreferences("UserPrefs", MODE_PRIVATE).edit();
+        // Bersihkan semua data sesi lama sebelum menyimpan akun baru
+        ed.clear();
         ed.putString("nama", nama);
         ed.putString("email", email);
         if (auth.getAccessToken()  != null) ed.putString("auth_access_token",  auth.getAccessToken());

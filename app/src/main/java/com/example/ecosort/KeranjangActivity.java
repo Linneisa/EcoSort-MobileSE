@@ -113,6 +113,15 @@ public class KeranjangActivity extends AppCompatActivity {
                             String transactionId = response.body().get(0).getId();
                             navigateToTiket(metode, transactionId);
 
+                        } else if (response.code() == 401) {
+                            // Token kedaluwarsa — hapus sesi dan minta login ulang
+                            getSharedPreferences("UserPrefs", Context.MODE_PRIVATE)
+                                    .edit().remove("ROLE").apply();
+                            Toast.makeText(KeranjangActivity.this,
+                                    "Sesi telah berakhir, silakan login kembali.",
+                                    Toast.LENGTH_LONG).show();
+                            startActivity(new Intent(KeranjangActivity.this, LoginActivity.class));
+                            finish();
                         } else {
                             Toast.makeText(KeranjangActivity.this,
                                     "Gagal menyimpan transaksi (kode " + response.code() + ")",

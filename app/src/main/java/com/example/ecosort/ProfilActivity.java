@@ -39,8 +39,8 @@ public class ProfilActivity extends AppCompatActivity {
                 android.content.SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
                 android.content.SharedPreferences.Editor editor = prefs.edit();
 
-                // Menghapus hanya Role agar nama dan foto tetap ada (atau gunakan editor.clear() untuk menghapus semua)
-                editor.remove("ROLE");
+                // Hapus semua data sesi agar tidak bocor ke akun berikutnya
+                editor.clear();
                 editor.apply();
 
                 Toast.makeText(ProfilActivity.this, "Berhasil Keluar Akun", Toast.LENGTH_SHORT).show();

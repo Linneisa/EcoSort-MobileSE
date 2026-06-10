@@ -3,17 +3,22 @@ package com.example.ecosort;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import androidx.appcompat.app.AlertDialog;
+import com.example.ecosort.model.TransaksiCancelRequest;
 import android.graphics.Color;
 import android.net.Uri;
+import java.text.NumberFormat;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.example.ecosort.model.JualRongsokModel;
 import com.example.ecosort.model.PenukaranRiwayatModel;
 import com.example.ecosort.model.RewardModel;
 import com.example.ecosort.model.TransaksiSampahModel;
@@ -34,6 +39,7 @@ import retrofit2.Response;
 public class RiwayatActivity extends AppCompatActivity {
 
     private static final String TAG = "RiwayatActivity";
+    private static final int REQUEST_VIEW_TIKET = 1001;
 
     private TextView     btnSemua, btnMasuk, btnKeluar, tvEmptyRiwayat;
     private RecyclerView rvRiwayat;
@@ -47,7 +53,8 @@ public class RiwayatActivity extends AppCompatActivity {
     private List<TransaksiSampahModel>  transaksiList;
     private List<PenukaranRiwayatModel> penukaranList;
     private List<RewardModel>           rewardsList;
-    private int loadedCount = 0; // increments to 3 when all done
+    private List<JualRongsokModel>      rongsokList;
+    private int loadedCount = 0; // increments to 4 when all done
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -188,12 +195,36 @@ public class RiwayatActivity extends AppCompatActivity {
                         onOneLoaded();
                     }
                 });
+
+        // ── 4. Jual rongsok milik user (semua status) ─────────────────────────
+        SupabaseClient.getApiService()
+                .getJualRongsokByUser(bearer, "eq." + userId, "*", "created_at.desc")
+                .enqueue(new Callback<List<JualRongsokModel>>() {
+                    @Override
+                    public void onResponse(Call<List<JualRongsokModel>> call,
+                                           Response<List<JualRongsokModel>> response) {
+                        if (response.isSuccessful() && response.body() != null) {
+                            rongsokList = response.body();
+                            Log.d(TAG, "jual_rongsok: " + rongsokList.size() + " baris");
+                        } else {
+                            rongsokList = new ArrayList<>();
+                            Log.e(TAG, "jual_rongsok gagal: HTTP " + response.code());
+                        }
+                        onOneLoaded();
+                    }
+                    @Override
+                    public void onFailure(Call<List<JualRongsokModel>> call, Throwable t) {
+                        rongsokList = new ArrayList<>();
+                        Log.e(TAG, "jual_rongsok network error: " + t.getMessage());
+                        onOneLoaded();
+                    }
+                });
     }
 
-    /** Dipanggil dari tiga callback — proses data setelah ketiganya selesai. */
+    /** Dipanggil dari empat callback — proses data setelah keempatnya selesai. */
     private synchronized void onOneLoaded() {
         loadedCount++;
-        if (loadedCount == 3) {
+        if (loadedCount == 4) {
             runOnUiThread(this::prosesData);
         }
     }
@@ -210,11 +241,16 @@ public class RiwayatActivity extends AppCompatActivity {
         // Transaksi sampah → Masuk
         for (TransaksiSampahModel t : transaksiList) {
             String judul = t.getNamaSampah();
-            if ("menunggu".equals(t.getStatus())) judul += " (Menunggu Verifikasi)";
-            items.add(new RiwayatItem(
-                    t.getTanggal(),
-                    new Riwayat(judul, formatTanggal(t.getTanggal()),
-                            String.valueOf(t.getPoinDidapat()), "Masuk")));
+            boolean menunggu = "menunggu".equals(t.getStatus());
+            if (menunggu) judul += " (Menunggu Verifikasi)";
+            // Poin belum dikreditkan sampai admin verifikasi — tampilkan 0 saat masih pending
+            String poinTampil = menunggu ? "0" : String.valueOf(t.getPoinDidapat());
+            Riwayat r = new Riwayat(judul, formatTanggal(t.getTanggal()), poinTampil, "Masuk");
+            r.setTransactionId(t.getId());
+            r.setStatus(t.getStatus());
+            r.setNamaSampah(t.getNamaSampah());
+            r.setBeratStr(String.valueOf(t.getBerat()));
+            items.add(new RiwayatItem(t.getTanggal(), r));
         }
 
         // Penukaran reward → Keluar
@@ -227,6 +263,24 @@ public class RiwayatActivity extends AppCompatActivity {
                     new Riwayat("Tukar: " + namaReward,
                             formatTanggal(p.getTanggal()),
                             String.valueOf(p.getJumlahPoin()), "Keluar")));
+        }
+
+        // Jual rongsok → Masuk (Rupiah)
+        NumberFormat rupiah = NumberFormat.getNumberInstance(new Locale("in", "ID"));
+        for (JualRongsokModel r : rongsokList) {
+            boolean menunggu = "menunggu_verifikasi".equals(r.getStatus());
+            String judul = "Jual: " + r.getNamaBarang();
+            if (menunggu) judul += " (Menunggu Konfirmasi)";
+            // Simpan angka mentah untuk diformat adapter, atau "Menunggu" bila belum ada harga
+            String poinStr;
+            if (menunggu || r.getHargaDeal() == null) {
+                poinStr = "Menunggu";
+            } else {
+                poinStr = String.valueOf(r.getHargaDeal());
+            }
+            Riwayat rv = new Riwayat(judul, formatTanggal(r.getCreatedAt()), poinStr, "Masuk");
+            rv.setIsRupiah(true);
+            items.add(new RiwayatItem(r.getCreatedAt(), rv));
         }
 
         // Urutkan terbaru → terlama (ISO 8601 string aman dibandingkan lexicografis)
@@ -262,8 +316,67 @@ public class RiwayatActivity extends AppCompatActivity {
         } else {
             tvEmptyRiwayat.setVisibility(View.GONE);
             rvRiwayat.setVisibility(View.VISIBLE);
-            rvRiwayat.setAdapter(new RiwayatAdapter(filtered));
+            RiwayatAdapter adapter = new RiwayatAdapter(filtered);
+            adapter.setOnLihatKodeListener(riwayat -> {
+                Intent intent = new Intent(RiwayatActivity.this, TiketQrActivity.class);
+                intent.putExtra("TIKET_ID",     riwayat.getTransactionId());
+                intent.putExtra("TIKET_NAMA",   riwayat.getNamaSampah() != null ? riwayat.getNamaSampah() : "");
+                intent.putExtra("TIKET_BERAT",  riwayat.getBeratStr()   != null ? riwayat.getBeratStr()   : "-");
+                intent.putExtra("TIKET_POIN",   riwayat.getPoin());
+                intent.putExtra("TIKET_METODE", "-");
+                intent.putExtra("IS_REVIEW",    true);
+                startActivityForResult(intent, REQUEST_VIEW_TIKET);
+            });
+            adapter.setOnBatalkanListener(this::batalkanTransaksi);
+            rvRiwayat.setAdapter(adapter);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_VIEW_TIKET && resultCode == RESULT_OK) {
+            loadRiwayat();
+        }
+    }
+
+    private void batalkanTransaksi(Riwayat riwayat) {
+        new AlertDialog.Builder(this)
+                .setTitle("Batalkan Transaksi")
+                .setMessage("Apakah kamu yakin ingin membatalkan transaksi ini?")
+                .setPositiveButton("Ya, Batalkan", (d, w) -> kirimBatalkan(riwayat))
+                .setNegativeButton("Tidak", null)
+                .show();
+    }
+
+    private void kirimBatalkan(Riwayat riwayat) {
+        SharedPreferences prefs = getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
+        String accessToken = prefs.getString("auth_access_token", "");
+
+        SupabaseClient.getApiService()
+                .cancelTransaksi(
+                        "Bearer " + accessToken,
+                        "eq." + riwayat.getTransactionId(),
+                        new TransaksiCancelRequest())
+                .enqueue(new Callback<Void>() {
+                    @Override
+                    public void onResponse(Call<Void> call, Response<Void> response) {
+                        if (response.isSuccessful()) {
+                            Toast.makeText(RiwayatActivity.this,
+                                    "Transaksi berhasil dibatalkan.", Toast.LENGTH_SHORT).show();
+                            loadRiwayat();
+                        } else {
+                            Toast.makeText(RiwayatActivity.this,
+                                    "Gagal membatalkan transaksi (kode " + response.code() + ")",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<Void> call, Throwable t) {
+                        Toast.makeText(RiwayatActivity.this,
+                                "Tidak dapat terhubung ke server.", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void showLoading(boolean show) {
